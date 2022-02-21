@@ -71,6 +71,7 @@ mecanumDrive = new MecanumDrive(leftFrontMtr, leftBackMtr, rightFrontMtr, rightB
  addChild("MecanumDrive",mecanumDrive);
 mecanumDrive.setExpiration(0.1);
 mecanumDrive.setMaxOutput(1.0);
+mecanumDrive.setSafetyEnabled(true);
 
 gyro = new ADXRS450_Gyro();
 
@@ -87,7 +88,7 @@ gyro = new ADXRS450_Gyro();
     }
 
     public void mecanumDrive(double y, double x, double z) {
-        mecanumDrive.driveCartesian(y, x, z);
+        mecanumDrive.driveCartesian(y, x, z, gyro.getAngle());
     }
 
     @Override
