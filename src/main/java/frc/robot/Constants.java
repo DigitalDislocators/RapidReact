@@ -20,13 +20,24 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public class Constants {
-   /**
-    * public static final class DriveConstants {
-    *   public static final int kLeftMotor1Port = 0;
-    *   public static final int kLeftMotor2Port = 1;
-    *   public static final int kRightMotor1Port = 2;
-    *   public static final int kRightMotor2Port = 3; 
-    * }
-    */ 
+   // Dividing 8" wheel circumference by encoder counts per revolution of TalonSRX
+   public static final double countsPerInch = 4096 / (8 * Math.PI);
+
+   // Kp for various proportional controllers
+   public static final double autoTurnKp = 0.05;
+   public static final double autoStraightTurnKp = 0.005;
+   public static final double autoStaightKp = 0.001;
+   public static final double autoDriveToPointKp = 4.1;
+
+   // Joystick ratios
+   public static final double fineTurnRatio = 0.5;
+
+   // Indexer powers
+   public static final double intakePwr = 0.9;
+   public static final double indexerPwr = 0.5;
+
+   // Shooter powers
+   public static final double lowGoalPwr = 0.325;
+   public static final double launchpadPwr = 0.95;
 }
 
