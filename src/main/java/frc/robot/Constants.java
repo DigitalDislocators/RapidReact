@@ -20,24 +20,89 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public class Constants {
-   // Dividing 8" wheel circumference by encoder counts per revolution of TalonSRX
-   public static final double countsPerInch = 4096 / (8 * Math.PI);
 
-   // Kp for various proportional controllers
-   public static final double autoTurnKp = 0.05;
-   public static final double autoStraightTurnKp = 0.005;
-   public static final double autoStaightKp = 0.001;
-   public static final double autoDriveToPointKp = 4.1;
+   /**
+    * The Constants.Encoder class provides constants important for the interpretation of encoder counts.
+    */
+   public class Encoder {
+      // Dividing 8" wheel circumference by encoder counts per revolution of TalonSRX
+      /**
+       * The amount of encoder counts per inch of movement of an 8-inch wheel.
+       */
+      public static final double countsPerInch = 4096 / (8 * Math.PI);
 
-   // Joystick ratios
-   public static final double fineTurnRatio = 0.5;
+      /**
+       * The amount of encoder counts per foot of movement of an 8-inch wheel.
+       */
+      public static final double countsPerFoot = 4096 / (8 * Math.PI) * 12;
+   }
 
-   // Indexer powers
-   public static final double intakePwr = 0.9;
-   public static final double indexerPwr = 0.5;
+   /**
+    * The Constants.Kp class provides Kp values for various proportional controllers.
+    */
+   public class Kp {
+      /**
+       * Kp for turning in place.
+       */
+      public static final double turn = 0.05;
 
-   // Shooter powers
-   public static final double lowGoalPwr = 0.325;
-   public static final double launchpadPwr = 0.95;
+      /**
+       * Kp for turning while driving.
+       */
+      public static final double turnWhileDriving = 0.005;
+
+      /**
+       * Kp for driving.
+       */
+      public static final double drive = 0.001;
+
+      /**
+       * Kp for driving to a point, where distance is measured in feet.
+       */
+      public static final double driveToPoint = 4.1;
+   }
+
+   /**
+    * The Constants.Joystick class provides constants important for interpreting joystick inputs.
+    */
+   public class Joystick {
+      /**
+       * The ratio for how fine robot turning will be.
+       */
+      public static final double fineTurnRatio = 0.5;
+   }
+
+   /**
+    * The Constants.Power class provides motor powers for motors in various subsystems.
+    */
+   public class Power {
+      // Indexer powers
+      /**
+       * The power of the intake when intaking.
+       */
+      public static final double intake = 0.9;
+
+      /**
+       * The power of both indexer motors when running in reverse.
+       */
+      public static final double indexerReverse = -0.8;
+
+      /**
+       * The power of both indexer motors when feeding the shooter.
+       */
+      public static final double feed = 0.7;
+
+      // Shooter powers
+      /**
+       * The power for the shooter when dumping in the low goal.
+       */
+      public static final double lowGoal = 0.3;
+
+      /**
+       * The power for the shooter when shooting from the launchpad.
+       */
+      public static final double launchpad = 0.93;
+   }
+
 }
 
