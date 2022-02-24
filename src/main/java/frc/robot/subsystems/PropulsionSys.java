@@ -51,7 +51,7 @@ public class PropulsionSys extends SubsystemBase {
      * 
      * PropulsionSys contains all the motors of the drivebase and the gyro/IMU
      * 
-     * This sybsystem contains mecanum drive and tank drive methods for controlling the drivebase as well as getters to
+     * This subsystem contains mecanum drive and tank drive methods for controlling the drivebase as well as getters to
      * get variables returned from the gyro/IMU and drive motor encoders.
      */
     public PropulsionSys() {
