@@ -69,7 +69,17 @@ public class Constants {
       /**
        * The ratio for how fine robot turning will be.
        */
-      public static final double fineTurnRatio = 0.5;
+      public static final double fineTurnRatio = 0.3;
+   }
+
+   /**
+    * The Constants.Sensor class provides constants important for interpreting sensor inputs.
+    */
+   public class Sensor {
+      /**
+       * The threshhold of the indexer sensor for stopping the intake.
+       */
+      public static final double indexerProxThresh = 100;
    }
 
    /**
@@ -80,7 +90,7 @@ public class Constants {
       /**
        * The power of the intake when intaking.
        */
-      public static final double intake = 0.9;
+      public static final double intake = 1.0;
 
       /**
        * The power of both indexer motors when running in reverse.
@@ -96,7 +106,7 @@ public class Constants {
       /**
        * The power for the shooter when dumping in the low goal.
        */
-      public static final double lowGoal = 0.3;
+      public static final double lowGoal = 0.28;
 
       /**
        * The power for the shooter when shooting from the launchpad.
