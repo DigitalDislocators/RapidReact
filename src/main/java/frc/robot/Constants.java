@@ -114,5 +114,20 @@ public class Constants {
       public static final double launchpad = 0.93;
    }
 
+   /**
+    * The Constants.Lights class provides constants important for the operation of the lights.
+    */
+   public class Lights {
+      /**
+       * The time in seconds between each color change in party mode.
+       */
+      public static final double partySpeed = 0.2;
+
+      /**
+       * The time in seconds between each color flash in blink mode.
+       */
+      public static final double blinkSpeed = 0.2;
+   }
+
 }
 

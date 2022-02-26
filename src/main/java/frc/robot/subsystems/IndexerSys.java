@@ -43,6 +43,8 @@ public class IndexerSys extends SubsystemBase {
 
     private boolean m_ballIsGood;
 
+    private boolean m_sensorIsEnabled;
+
     /**
      * Constructs a new IndexerSys.
      * 
@@ -64,7 +66,6 @@ public class IndexerSys extends SubsystemBase {
         sensor = new ColorSensorV3(Port.kOnboard);
 
         m_lightsSys = lightsSys;
-        m_lightsSys.green();
     }
 
     @Override
@@ -78,7 +79,9 @@ public class IndexerSys extends SubsystemBase {
                 else {
                     m_ballIsGood = true;
                 }
-                m_lightsSys.red();
+                if(!m_lightsSys.getPartyMode()) {
+                    m_lightsSys.red();
+                }
                 SmartDashboard.putString("ball color", "red");
             }
             else if(sensor.getBlue() > 225) {
@@ -88,12 +91,16 @@ public class IndexerSys extends SubsystemBase {
                 else {
                     m_ballIsGood = true;
                 }
-                m_lightsSys.blue();
+                if(!m_lightsSys.getPartyMode()) {
+                    m_lightsSys.blue();
+                }
                 SmartDashboard.putString("ball color", "blue");
             }
         }
         else {
-            m_lightsSys.green();
+            if(!m_lightsSys.getPartyMode()) {
+                m_lightsSys.green();
+            }
             m_ballIsGood = true;
         }
     }
@@ -111,6 +118,10 @@ public class IndexerSys extends SubsystemBase {
      * Runs the intake unless a second ball has pushed the first one in front of the sensor.
      */
     public void intake() {
+        if(!m_lightsSys.isBlinking()) {
+            m_lightsSys.setBlink(true);
+        }
+
         SmartDashboard.putNumber("sensor prox", sensor.getProximity());
         SmartDashboard.putNumber("sensor red", sensor.getRed());
         SmartDashboard.putNumber("sensor blue", sensor.getBlue());
@@ -137,6 +148,8 @@ public class IndexerSys extends SubsystemBase {
      * Stops both motors of the indexer.
      */
     public void stop() {
+        m_lightsSys.setBlink(false);
+
         intakeMtr.stopMotor();
         indexerMtr.stopMotor();
     }
@@ -148,6 +161,23 @@ public class IndexerSys extends SubsystemBase {
      */
     public boolean ballIsGood() {
         return m_ballIsGood;
+    }
+
+    public boolean ballIsIn() {
+        if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean getSensorEnabled() {
+        return m_sensorIsEnabled;
+    }
+
+    public void setSensorEnabled(boolean isEnabled) {
+        m_sensorIsEnabled = isEnabled;
     }
 
 }
