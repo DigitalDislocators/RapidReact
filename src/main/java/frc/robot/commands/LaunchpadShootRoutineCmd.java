@@ -12,7 +12,6 @@
 
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSys;
@@ -78,7 +77,6 @@ public class LaunchpadShootRoutineCmd extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        SmartDashboard.putNumber("timer", timer.get());
         if(timer.hasElapsed(0.5)) {
             m_indexerSys.set(Constants.Power.feed);
             m_isFinished = true;
