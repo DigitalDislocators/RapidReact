@@ -15,6 +15,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -202,15 +203,14 @@ public class LightsSys extends SubsystemBase {
     }
 
     public void setPartyMode(boolean partyMode) {
-        this.partyMode = partyMode;
-        if(partyMode) {
-            timer.reset();
-            timer.start();
-            magenta();
-        }
-        else {
+        if(!partyMode) {
             timer.stop();
         }
+        if(partyMode != this.partyMode) {
+            timer.reset();
+            timer.start();
+        }
+        this.partyMode = partyMode;
     }
 
     public boolean isBlinking() {

@@ -45,6 +45,8 @@ public class PropulsionSys extends SubsystemBase {
 
     private Timer timer;
     private Coordinate m_currentPos;
+    private boolean m_isAiming = false;
+    private double m_aimPower = 0.0;
     
     /**
      * Constructs a new PropulsionSys.
@@ -120,11 +122,11 @@ public class PropulsionSys extends SubsystemBase {
         }
 
         if(isFieldOriented) {
-            mecanumDrive.driveCartesian(y, x, z);
+            mecanumDrive.driveCartesian(y, x, z + m_aimPower);
 
         }
         else {
-            mecanumDrive.driveCartesian(y, x, z);
+            mecanumDrive.driveCartesian(y, x, z + m_aimPower);
         }
     }
 
@@ -138,6 +140,8 @@ public class PropulsionSys extends SubsystemBase {
      * @param isFieldOriented if true, the robot will drive with respect to its initial heading
      */
     public void mecanumDriveControlNonlinear(double x, double y, double z, double zFine, boolean isFieldOriented) {
+        SmartDashboard.putNumber("y mov", y);
+
         if(x < 0) {
             x *= -x;
         }
@@ -159,12 +163,13 @@ public class PropulsionSys extends SubsystemBase {
             z *= z;
         }
 
-        if(isFieldOriented) {
-            mecanumDrive.driveCartesian(y, x, z + zFine * Constants.Joystick.fineTurnRatio, gyro.getAngle());
-
-        }
-        else {
-            mecanumDrive.driveCartesian(y, x, z + zFine * Constants.Joystick.fineTurnRatio);
+        if(!m_isAiming) {
+            if(isFieldOriented) {
+                mecanumDrive.driveCartesian(y, x, z + m_aimPower, gyro.getAngle());
+            }
+            else {
+                mecanumDrive.driveCartesian(y, x, z + m_aimPower);
+            }
         }
     }
 
@@ -178,12 +183,14 @@ public class PropulsionSys extends SubsystemBase {
      * @param isFieldOriented if true, the robot will drive with respect to its initial heading
      */
     public void mecanumDriveControl(double x, double y, double z, boolean isFieldOriented) {
-        if(isFieldOriented) {
-            mecanumDrive.driveCartesian(y, x, z);
+        if(!m_isAiming) {
+            if(isFieldOriented) {
+                mecanumDrive.driveCartesian(y, x, z, gyro.getAngle());
 
-        }
-        else {
-            mecanumDrive.driveCartesian(y, x, z);
+            }
+            else {
+                mecanumDrive.driveCartesian(y, x, z);
+            }
         }
     }
     
@@ -275,7 +282,7 @@ public class PropulsionSys extends SubsystemBase {
         SmartDashboard.putNumber("front right pos", rightFrontMtr.getSelectedSensorPosition());
         SmartDashboard.putNumber("back right pos", rightBackMtr.getSelectedSensorPosition());
 
-
+        SmartDashboard.putBoolean("isAiming", m_isAiming);
 
     }
 
@@ -397,6 +404,10 @@ public class PropulsionSys extends SubsystemBase {
      */
     public void stop() {
         mecanumDrive.stopMotor();
+    }
+
+    public void setAimPower(double aimPower) {
+        m_aimPower = aimPower;
     }
 }
 

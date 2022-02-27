@@ -46,6 +46,8 @@ public class Constants {
        */
       public static final double turn = 0.05;
 
+      public static final double aim = 0.02;
+
       /**
        * Kp for turning while driving.
        */
@@ -79,7 +81,7 @@ public class Constants {
       /**
        * The threshhold of the indexer sensor for stopping the intake.
        */
-      public static final double indexerProxThresh = 100;
+      public static final double indexerProxThresh = 90;
    }
 
    /**
@@ -111,7 +113,7 @@ public class Constants {
       /**
        * The power for the shooter when shooting from the launchpad.
        */
-      public static final double launchpad = 0.93;
+      public static final double launchpad = 0.87;
    }
 
    /**

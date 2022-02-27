@@ -13,6 +13,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -53,6 +54,7 @@ public class ClimberSys extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putNumber("combo", RobotContainer.getWinchCombo());
         if(RobotContainer.getWinchCombo() == 2) {
             winchMtr.set(1.0);
         }
@@ -73,6 +75,15 @@ public class ClimberSys extends SubsystemBase {
 
     public void hookStop() {
         hookMtr.stopMotor();
+    }
+
+    public void combo(boolean left, boolean right) {
+        if(left && right) {
+            winchMtr.set(1.0);
+        }
+        else {
+            winchMtr.stopMotor();
+        }
     }
 
     // Put methods for controlling this subsystem
