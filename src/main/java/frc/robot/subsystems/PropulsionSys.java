@@ -14,6 +14,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 import frc.robot.Coordinate;
+import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -45,8 +46,6 @@ public class PropulsionSys extends SubsystemBase {
 
     private Timer timer;
     private Coordinate m_currentPos;
-    private boolean m_isAiming = false;
-    private double m_aimPower = 0.0;
     
     /**
      * Constructs a new PropulsionSys.
@@ -122,11 +121,11 @@ public class PropulsionSys extends SubsystemBase {
         }
 
         if(isFieldOriented) {
-            mecanumDrive.driveCartesian(y, x, z + m_aimPower);
+            mecanumDrive.driveCartesian(y, x, z + RobotContainer.getAimPower());
 
         }
         else {
-            mecanumDrive.driveCartesian(y, x, z + m_aimPower);
+            mecanumDrive.driveCartesian(y, x, z + RobotContainer.getAimPower());
         }
     }
 
@@ -140,8 +139,6 @@ public class PropulsionSys extends SubsystemBase {
      * @param isFieldOriented if true, the robot will drive with respect to its initial heading
      */
     public void mecanumDriveControlNonlinear(double x, double y, double z, double zFine, boolean isFieldOriented) {
-        SmartDashboard.putNumber("y mov", y);
-
         if(x < 0) {
             x *= -x;
         }
@@ -163,13 +160,12 @@ public class PropulsionSys extends SubsystemBase {
             z *= z;
         }
 
-        if(!m_isAiming) {
-            if(isFieldOriented) {
-                mecanumDrive.driveCartesian(y, x, z + m_aimPower, gyro.getAngle());
-            }
-            else {
-                mecanumDrive.driveCartesian(y, x, z + m_aimPower);
-            }
+        if(isFieldOriented) {
+            mecanumDrive.driveCartesian(y, x, z + + zFine * Constants.Joystick.fineTurnRatio + RobotContainer.getAimPower(), gyro.getAngle());
+        }
+        else {
+            mecanumDrive.driveCartesian(y, x, z + zFine * Constants.Joystick.fineTurnRatio + RobotContainer.getAimPower());
+            SmartDashboard.putNumber("aimPower", RobotContainer.getAimPower());
         }
     }
 
@@ -183,14 +179,12 @@ public class PropulsionSys extends SubsystemBase {
      * @param isFieldOriented if true, the robot will drive with respect to its initial heading
      */
     public void mecanumDriveControl(double x, double y, double z, boolean isFieldOriented) {
-        if(!m_isAiming) {
-            if(isFieldOriented) {
-                mecanumDrive.driveCartesian(y, x, z, gyro.getAngle());
+        if(isFieldOriented) {
+            mecanumDrive.driveCartesian(y, x, z, gyro.getAngle());
 
-            }
-            else {
-                mecanumDrive.driveCartesian(y, x, z);
-            }
+        }
+        else {
+            mecanumDrive.driveCartesian(y, x, z);
         }
     }
     
@@ -281,9 +275,6 @@ public class PropulsionSys extends SubsystemBase {
         SmartDashboard.putNumber("back left pos", leftBackMtr.getSelectedSensorPosition());
         SmartDashboard.putNumber("front right pos", rightFrontMtr.getSelectedSensorPosition());
         SmartDashboard.putNumber("back right pos", rightBackMtr.getSelectedSensorPosition());
-
-        SmartDashboard.putBoolean("isAiming", m_isAiming);
-
     }
 
     @Override
@@ -404,10 +395,6 @@ public class PropulsionSys extends SubsystemBase {
      */
     public void stop() {
         mecanumDrive.stopMotor();
-    }
-
-    public void setAimPower(double aimPower) {
-        m_aimPower = aimPower;
     }
 }
 

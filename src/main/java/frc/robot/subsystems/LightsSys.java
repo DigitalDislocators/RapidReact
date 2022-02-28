@@ -70,7 +70,7 @@ public class LightsSys extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
+        SmartDashboard.putString("LED Color", color);
         if(partyMode) {
             if(timer.hasElapsed(Constants.Lights.partySpeed)) {
                 timer.reset();
@@ -202,15 +202,16 @@ public class LightsSys extends SubsystemBase {
         return partyMode;
     }
 
-    public void setPartyMode(boolean partyMode) {
-        if(!partyMode) {
+    public void setPartyMode(boolean setPartyMode) {
+        if(!setPartyMode) {
             timer.stop();
         }
-        if(partyMode != this.partyMode) {
+        if(setPartyMode != partyMode) {
+            timer = new Timer();
             timer.reset();
             timer.start();
         }
-        this.partyMode = partyMode;
+        partyMode = setPartyMode;
     }
 
     public boolean isBlinking() {
