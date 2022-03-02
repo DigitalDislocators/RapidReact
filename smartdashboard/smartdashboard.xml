@@ -16,7 +16,7 @@
 		<location x="110" y="386"/>
 		<width>471</width>
 		<height>176</height>
-		<property name="Image File" value="FRC Crosshairs.png"/>
+		<property name="Image File" value="C:\Users\lgkip\Pictures\FRC Crosshairs.png"/>
 	</static-widget>
 	<widget field="LED Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="500" y="61"/>
