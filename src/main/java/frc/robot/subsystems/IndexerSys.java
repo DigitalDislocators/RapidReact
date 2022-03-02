@@ -101,6 +101,7 @@ public class IndexerSys extends SubsystemBase {
             if(!m_lightsSys.getPartyMode()) {
                 m_lightsSys.green();
             }
+            SmartDashboard.putString("ball color", "N/A");
             m_ballIsGood = true;
         }
     }
@@ -178,6 +179,15 @@ public class IndexerSys extends SubsystemBase {
 
     public void setSensorEnabled(boolean isEnabled) {
         m_sensorIsEnabled = isEnabled;
+    }
+
+    public void operatorControl(double set, boolean runIntake) {
+        if(runIntake) {
+            intake();
+        }
+        else {
+            set(set);
+        }
     }
 
 }

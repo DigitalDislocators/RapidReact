@@ -46,6 +46,9 @@ public class Constants {
        */
       public static final double turn = 0.05;
 
+      /**
+       * Kp for aiming.
+       */
       public static final double aim = 0.02;
 
       /**
@@ -71,7 +74,7 @@ public class Constants {
       /**
        * The ratio for how fine robot turning will be.
        */
-      public static final double fineTurnRatio = 0.3;
+      public static final double fineTurnRatio = 0.4;
    }
 
    /**
@@ -114,6 +117,11 @@ public class Constants {
        * The power for the shooter when shooting from the launchpad.
        */
       public static final double launchpad = 0.87;
+
+      /**
+       * The spin-up time for the shooter in seconds.
+       */
+      public static final double spinUpTime = 0.5;
    }
 
    /**
@@ -130,6 +138,5 @@ public class Constants {
        */
       public static final double blinkSpeed = 0.2;
    }
-
 }
 

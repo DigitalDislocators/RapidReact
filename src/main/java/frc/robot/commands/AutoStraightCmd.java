@@ -79,7 +79,7 @@ public class AutoStraightCmd extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("target distance", m_counts);
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -115,8 +115,7 @@ public class AutoStraightCmd extends CommandBase {
             m_push = 0;
         }
         
-        SmartDashboard.putNumber("drive power", power);
-        SmartDashboard.putNumber("drive push", m_push);
+        SmartDashboard.putString("Status", "DRIVING: " + (m_counts - m_propulsionSys.getAverageEncoderCounts()) / Constants.Encoder.countsPerInch);
 
         // Setting motor powers
         m_propulsionSys.tankDriveControl(power, power);
@@ -127,6 +126,7 @@ public class AutoStraightCmd extends CommandBase {
     public void end(boolean interrupted) {
         // Sets motor powers to zero when command is finished.
         m_propulsionSys.stop();
+        SmartDashboard.putString("Status", "DRIVE FINISHED");
     }
 
     // Returns true when the command should end.

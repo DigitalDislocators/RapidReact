@@ -78,8 +78,6 @@ public class AutoTurnToHeadingCmd extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("target heading", m_heading);
-
         //Making sure the robot doesn't do donuts (turn more than 360 degrees)
         while(m_heading - m_propulsionSys.getHeading() > 180) {
             m_heading -= 360;
@@ -123,8 +121,7 @@ public class AutoTurnToHeadingCmd extends CommandBase {
         }
         
 
-        SmartDashboard.putNumber("turn power", power);
-        SmartDashboard.putNumber("turn push", m_push);
+        SmartDashboard.putString("Status", "TURNING: " + (m_heading - m_propulsionSys.getHeading()));
 
         // Setting motor powers
         m_propulsionSys.tankDriveControl(power, -power);
@@ -136,6 +133,7 @@ public class AutoTurnToHeadingCmd extends CommandBase {
     public void end(boolean interrupted) {
         // Sets motor powers to zero when command is finished.
         m_propulsionSys.stop();
+        SmartDashboard.putString("Status", "TURN FINISHED");
     }
 
     

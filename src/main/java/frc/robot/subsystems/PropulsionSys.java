@@ -87,7 +87,7 @@ public class PropulsionSys extends SubsystemBase {
         timer = new Timer();
         timer.start();
 
-        m_currentPos = new Coordinate();
+        // m_currentPos = new Coordinate();
     }
 
     /**
@@ -165,7 +165,6 @@ public class PropulsionSys extends SubsystemBase {
         }
         else {
             mecanumDrive.driveCartesian(y, x, z + zFine * Constants.Joystick.fineTurnRatio + RobotContainer.getAimPower());
-            SmartDashboard.putNumber("aimPower", RobotContainer.getAimPower());
         }
     }
 
@@ -256,25 +255,17 @@ public class PropulsionSys extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Calculating position every 100 milliseconds
-        if(timer.hasElapsed(0.1)) {
-            timer.reset();
-            m_currentPos.setX(m_currentPos.getX() + (getAverageEncoderRate() / Constants.Encoder.countsPerInch * Math.cos(gyro.getAngle() / 57.2958) * 0.0833333));
-            m_currentPos.setY(m_currentPos.getY() + (getAverageEncoderRate() / Constants.Encoder.countsPerInch * Math.sin(gyro.getAngle() / 57.2958) * 0.0833333));
-        }
-
-        SmartDashboard.putNumber("x", m_currentPos.getX());
-        SmartDashboard.putNumber("y", m_currentPos.getY());
+        // if(timer.hasElapsed(0.1)) {
+        //     timer.reset();
+        //     m_currentPos.setX(m_currentPos.getX() + (getAverageEncoderRate() / Constants.Encoder.countsPerInch * Math.cos(gyro.getAngle() / 57.2958) * 0.0833333));
+        //     m_currentPos.setY(m_currentPos.getY() + (getAverageEncoderRate() / Constants.Encoder.countsPerInch * Math.sin(gyro.getAngle() / 57.2958) * 0.0833333));
+        // }
 
         SmartDashboard.putNumber("heading", gyro.getAngle());
-        SmartDashboard.putNumber("angle rate", gyro.getRate());
+        SmartDashboard.putNumber("degrees per second", gyro.getRate());
 
-        SmartDashboard.putNumber("average encoder counts", getAverageEncoderCounts());
+        SmartDashboard.putNumber("miles per hour", getMilesPerHour());
         SmartDashboard.putNumber("feet per second", getFeetPerSecond());
-
-        SmartDashboard.putNumber("front left pos", leftFrontMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("back left pos", leftBackMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("front right pos", rightFrontMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("back right pos", rightBackMtr.getSelectedSensorPosition());
     }
 
     @Override
@@ -350,6 +341,17 @@ public class PropulsionSys extends SubsystemBase {
         rightFrontMtr.getSelectedSensorVelocity() + rightBackMtr.getSelectedSensorVelocity()) * 2.5 / Constants.Encoder.countsPerFoot;
     }
 
+    /**
+     * Returns the estimated forward speed of the robot in miles per hour based on the average encoder velocity 
+     * from {@link com.ctre.phoenix.motorcontrol.can.BaseMotorController}.getSelectedSensorVelocity().
+     * 
+     * <p>Miles per hour will be positive when the robot drives forward and negative when it drives backward. 
+     * 
+     * @return the estimated miles per hour of the forward movement of the robot
+     */
+    public double getMilesPerHour() {
+        return getFeetPerSecond() * 0.681818;
+    }
 
     /**
      * Returns the estimated forward speed of the robot in inches per second based on the average encoder velocity 

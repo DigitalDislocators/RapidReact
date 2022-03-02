@@ -11,7 +11,6 @@
 // ROBOTBUILDER TYPE: Command.
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Coordinate;
@@ -35,7 +34,8 @@ public class AutoDriveToPointCmd extends CommandBase {
     private double m_turnPush;
     private double m_drivePush;
     private double m_stop;
-    private boolean m_isFinished = false;
+    private boolean m_driveIsFinished = false;
+    private boolean m_turnIsFinished = false;
 
     /**
      * Constructs a new AutoDriveToPointCmd.
@@ -96,7 +96,13 @@ public class AutoDriveToPointCmd extends CommandBase {
     public void execute() {
         // Calculating distance and heading
         double distance = Coordinate.distance(m_propulsionSys.getCurrentPos(), m_targetPos);
-        double heading = Coordinate.thetaDeg(m_propulsionSys.getCurrentPos(), m_targetPos);
+        double heading;
+        if(distance < 1) {
+            heading = Coordinate.thetaDeg(m_propulsionSys.getCurrentPos(), m_targetPos);
+        }
+        else {
+            heading = m_linearHeading;
+        }
 
         // Allows the robot move backwards if it overshoots its target
         if(distance < m_linearDistance * 0.5) {
@@ -111,9 +117,6 @@ public class AutoDriveToPointCmd extends CommandBase {
             }
         }
 
-        SmartDashboard.putNumber("target distance", distance);
-        SmartDashboard.putNumber("target heading", heading);
-
         // Making sure the robot doesn't do donuts (turn more than 360 degrees)
         while(heading - m_propulsionSys.getHeading() > 180) {
             heading -= 360;
@@ -126,22 +129,25 @@ public class AutoDriveToPointCmd extends CommandBase {
         double turnPower = (heading * Constants.Kp.turnWhileDriving) + m_turnPush;
 
         // Using rotation rate for m_turnPush
-        // if(Math.abs(m_propulsionSys.getAngleRate()) < 20) {
-        //     if(m_propulsionSys.getHeading() > heading - 0.5 && m_propulsionSys.getHeading() < heading + 0.5) {
-        //         m_turnPush = 0;
-        //     }
-        //     else {
-        //         if(turnPower < 0) {
-        //             m_turnPush -= Constants.autoStraightTurnKp * 0.5;
-        //         }
-        //         else {
-        //             m_turnPush += Constants.autoStraightTurnKp * 0.5;
-        //         }
-        //     }
-        // }
-        // else {
-        //     m_turnPush = 0;
-        // }
+        if(Math.abs(m_propulsionSys.getAngleRate()) < 20) {
+            if(m_propulsionSys.getHeading() > heading - 0.5 && m_propulsionSys.getHeading() < heading + 0.5) {
+                if(m_driveIsFinished) {
+                    m_turnIsFinished = true;
+                }
+                m_turnPush = 0;
+            }
+            else {
+                if(turnPower < 0) {
+                    m_turnPush -= Constants.Kp.turnWhileDriving * 0.5;
+                }
+                else {
+                    m_turnPush += Constants.Kp.turnWhileDriving * 0.5;
+                }
+            }
+        }
+        else {
+            m_turnPush = 0;
+        }
 
         // Proportional controller for driving
         double drivePower = (distance * Constants.Kp.driveToPoint) + m_drivePush;
@@ -158,9 +164,10 @@ public class AutoDriveToPointCmd extends CommandBase {
         if(Math.abs(m_propulsionSys.getInchesPerSecond()) < 1) {
             if(m_propulsionSys.getAverageEncoderCounts() > distance - 0.5 && m_propulsionSys.getAverageEncoderCounts() < distance + 0.5) {
                 m_drivePush = 0;
-                m_isFinished = true;
+                m_driveIsFinished = true;
             }
             else {
+                m_driveIsFinished = false;
                 if(drivePower < 0) {
                     m_drivePush -= Constants.Kp.drive * 0.5;
                 }
@@ -170,12 +177,13 @@ public class AutoDriveToPointCmd extends CommandBase {
             }
         }
         else {
+            m_driveIsFinished = false;
             m_drivePush = 0;
         }
 
         // Combining drivePower and turnPower
-        double leftPower = turnPower + drivePower;
-        double rightPower = -turnPower + drivePower;
+        double leftPower = -turnPower + drivePower;
+        double rightPower = turnPower + drivePower;
 
         // Making sure the robot will turn in place instead of driving in a circle by subtracting how much larger one side is
         // greater than m_power from either side. This essentially means that if the robot needs to turn a large distance, it
@@ -203,12 +211,6 @@ public class AutoDriveToPointCmd extends CommandBase {
         //     turnPower = m_power;
         // }
 
-        SmartDashboard.putNumber("turn power", turnPower);
-        SmartDashboard.putNumber("turn push", m_turnPush);
-
-        SmartDashboard.putNumber("drive power", drivePower);
-        SmartDashboard.putNumber("drive push", m_drivePush);
-
         // Setting motor powers
         m_propulsionSys.tankDriveControl(leftPower, rightPower);
     }
@@ -223,7 +225,7 @@ public class AutoDriveToPointCmd extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_isFinished;
+        return m_turnIsFinished;
     }
 
     @Override

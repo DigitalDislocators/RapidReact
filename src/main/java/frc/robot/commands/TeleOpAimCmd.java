@@ -94,7 +94,7 @@ public class TeleOpAimCmd extends CommandBase {
         }
         
 
-        SmartDashboard.putNumber("turn power", power);
+        SmartDashboard.putString("Status", "AIMING: " + m_limelightSys.getX()); 
 
         RobotContainer.setAimPower(power);
     }
@@ -105,6 +105,7 @@ public class TeleOpAimCmd extends CommandBase {
     public void end(boolean interrupted) {
         // Sets motor powers to zero when command is finished.
         RobotContainer.setAimPower(0.0);
+        SmartDashboard.putString("Status", "AIMED"); 
     }
 
     
