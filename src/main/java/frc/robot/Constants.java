@@ -95,7 +95,7 @@ public class Constants {
       /**
        * The power of the intake when intaking.
        */
-      public static final double intake = 1.0;
+      public static final double intake = 0.65;
 
       /**
        * The power of both indexer motors when running in reverse.
@@ -103,9 +103,14 @@ public class Constants {
       public static final double indexerReverse = -0.8;
 
       /**
-       * The power of both indexer motors when feeding the shooter.
+       * The ratio between the powers of the intake and feed motors.
        */
-      public static final double feed = 0.6;
+      public static final double intakeToFeedRatio = 0.65;
+
+      /**
+       * The power of the feed motor when feeding the shooter.
+       */
+      public static final double feedFeed = 1.0;
 
       // Shooter powers
       /**

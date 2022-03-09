@@ -73,7 +73,7 @@ public class AutoLowGoalDump extends CommandBase {
     @Override
     public void execute() {
         m_shooterSys.set(Constants.Power.lowGoal);
-        m_indexerSys.set(Constants.Power.feed);
+        m_indexerSys.feed();
     }
 
     

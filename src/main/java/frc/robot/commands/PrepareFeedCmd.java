@@ -68,7 +68,7 @@ public class PrepareFeedCmd extends CommandBase {
             m_indexerSys.stop();
         }
         else {
-            m_indexerSys.set(Constants.Power.feed);
+            m_indexerSys.feed();
         }
     }
 
