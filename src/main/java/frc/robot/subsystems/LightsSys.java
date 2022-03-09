@@ -42,7 +42,9 @@ public class LightsSys extends SubsystemBase {
 
     boolean partyMode;
     boolean blinkMode;
-    Timer timer;
+
+    Timer partyTimer;
+    Timer blinkTimer;
     
     /**
      * Constructs a new HookSys.
@@ -62,7 +64,9 @@ public class LightsSys extends SubsystemBase {
 
         partyMode = false;
         blinkMode = false;
-        timer = new Timer();
+
+        partyTimer = new Timer();
+        blinkTimer = new Timer();
 
         green();
     }
@@ -72,8 +76,8 @@ public class LightsSys extends SubsystemBase {
         // This method will be called once per scheduler run
         SmartDashboard.putString("LED Color", color);
         if(partyMode) {
-            if(timer.hasElapsed(Constants.Lights.partySpeed)) {
-                timer.reset();
+            if(blinkTimer.hasElapsed(Constants.Lights.partySpeed)) {
+                blinkTimer.reset();
                 if(color.equals("magenta")) {
                     red();
                 }
@@ -96,8 +100,8 @@ public class LightsSys extends SubsystemBase {
         }
         
         if(blinkMode) {
-            if(timer.hasElapsed(Constants.Lights.blinkSpeed)) {
-                timer.reset();
+            if(blinkTimer.hasElapsed(Constants.Lights.blinkSpeed)) {
+                blinkTimer.reset();
                 if(!isOff) {
                     off();
                 }
@@ -204,12 +208,11 @@ public class LightsSys extends SubsystemBase {
 
     public void setPartyMode(boolean setPartyMode) {
         if(!setPartyMode) {
-            timer.stop();
+            partyTimer.stop();
         }
         if(setPartyMode != partyMode) {
-            timer = new Timer();
-            timer.reset();
-            timer.start();
+            partyTimer.reset();
+            partyTimer.start();
         }
         partyMode = setPartyMode;
     }
@@ -217,15 +220,16 @@ public class LightsSys extends SubsystemBase {
     public boolean isBlinking() {
         return blinkMode;
     }
+
     public void setBlink(boolean blink) {
+        if(!blink) {
+            blinkTimer.stop();
+        }
+        if(blink != blinkMode) {
+            blinkTimer.reset();
+            blinkTimer.start();
+        }
         blinkMode = blink;
-        if(blink) {
-            timer.reset();
-            timer.start();
-        }
-        else {
-            timer.stop();
-        }
     }
 }
 

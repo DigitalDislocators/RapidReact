@@ -29,7 +29,7 @@ public class PrepareFeedCmd extends CommandBase {
     /**
      * Constructs a new StartIntakeCmd.
      * 
-     * <p>StartIntakeCmd runs the intake unless a second ball has pushed the first one in front of the sensor.
+     * <p>StartIntakeCmd runs the intake unless a second cargo has pushed the first one in front of the sensor.
      * 
      * <p>The command finishes once it is run.
      * 
@@ -64,7 +64,7 @@ public class PrepareFeedCmd extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putString("Status", "PREPARING FEED");
-        if(m_indexerSys.ballIsIn()) {
+        if(m_indexerSys.cargoIsIn()) {
             m_indexerSys.stop();
         }
         else {
@@ -84,7 +84,7 @@ public class PrepareFeedCmd extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return m_indexerSys.ballIsIn();
+        return m_indexerSys.cargoIsIn();
     }
 
     

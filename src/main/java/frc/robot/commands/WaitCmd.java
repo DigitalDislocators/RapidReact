@@ -30,7 +30,7 @@ public class WaitCmd extends CommandBase {
     /**
      * Constructs a new WaitCmd.
      * 
-     * <p>StartIntakeCmd runs the intake unless a second ball has pushed the first one in front of the sensor.
+     * <p>StartIntakeCmd runs the intake unless a second cargo has pushed the first one in front of the sensor.
      * 
      * <p>The command finishes once it is run.
      * 

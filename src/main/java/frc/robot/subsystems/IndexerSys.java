@@ -41,9 +41,7 @@ public class IndexerSys extends SubsystemBase {
 
     private LightsSys m_lightsSys;
 
-    private boolean m_ballIsGood;
-
-    private boolean m_sensorIsEnabled;
+    private boolean m_cargoIsGood;
 
     /**
      * Constructs a new IndexerSys.
@@ -74,35 +72,35 @@ public class IndexerSys extends SubsystemBase {
         if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
             if(sensor.getRed() > 300) {
                 if(DriverStation.getAlliance() == Alliance.Blue) {
-                    m_ballIsGood = false;
+                    m_cargoIsGood = false;
                 }
                 else {
-                    m_ballIsGood = true;
+                    m_cargoIsGood = true;
                 }
                 if(!m_lightsSys.getPartyMode()) {
                     m_lightsSys.red();
                 }
-                SmartDashboard.putString("ball color", "red");
+                SmartDashboard.putString("cargo color", "red");
             }
             else if(sensor.getBlue() > 225) {
                 if(DriverStation.getAlliance() == Alliance.Red) {
-                    m_ballIsGood = false;
+                    m_cargoIsGood = false;
                 }
                 else {
-                    m_ballIsGood = true;
+                    m_cargoIsGood = true;
                 }
                 if(!m_lightsSys.getPartyMode()) {
                     m_lightsSys.blue();
                 }
-                SmartDashboard.putString("ball color", "blue");
+                SmartDashboard.putString("cargo color", "blue");
             }
         }
         else {
             if(!m_lightsSys.getPartyMode()) {
                 m_lightsSys.green();
             }
-            SmartDashboard.putString("ball color", "N/A");
-            m_ballIsGood = true;
+            SmartDashboard.putString("cargo color", "N/A");
+            m_cargoIsGood = true;
         }
     }
 
@@ -116,16 +114,10 @@ public class IndexerSys extends SubsystemBase {
     // here. Call these from Commands.
     
     /**
-     * Runs the intake unless a second ball has pushed the first one in front of the sensor.
+     * Runs the intake unless a second cargo has pushed the first one in front of the sensor.
      */
     public void intake() {
-        if(!m_lightsSys.isBlinking()) {
-            m_lightsSys.setBlink(true);
-        }
-
-        SmartDashboard.putNumber("sensor prox", sensor.getProximity());
-        SmartDashboard.putNumber("sensor red", sensor.getRed());
-        SmartDashboard.putNumber("sensor blue", sensor.getBlue());
+        m_lightsSys.setBlink(true);
 
         if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
             intakeMtr.stopMotor();
@@ -156,29 +148,21 @@ public class IndexerSys extends SubsystemBase {
     }
 
     /**
-     * Checks whether the next ball should be shot.
+     * Checks whether the next cargo should be shot.
      * 
-     * @return true if the color of the ball in front of the sensor matches the alliance color.
+     * @return true if the color of the cargo in front of the sensor matches the alliance color.
      */
-    public boolean ballIsGood() {
-        return m_ballIsGood;
+    public boolean cargoIsGood() {
+        return m_cargoIsGood;
     }
 
-    public boolean ballIsIn() {
+    public boolean cargoIsIn() {
         if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
             return true;
         }
         else {
             return false;
         }
-    }
-
-    public boolean getSensorEnabled() {
-        return m_sensorIsEnabled;
-    }
-
-    public void setSensorEnabled(boolean isEnabled) {
-        m_sensorIsEnabled = isEnabled;
     }
 
     public void operatorControl(double set, boolean runIntake) {
@@ -191,4 +175,3 @@ public class IndexerSys extends SubsystemBase {
     }
 
 }
-
