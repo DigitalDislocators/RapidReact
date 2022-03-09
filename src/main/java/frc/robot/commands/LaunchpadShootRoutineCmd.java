@@ -78,7 +78,7 @@ public class LaunchpadShootRoutineCmd extends CommandBase {
     @Override
     public void execute() {
         if(timer.hasElapsed(0.5)) {
-            m_indexerSys.set(Constants.Power.feed);
+            m_indexerSys.feed();
             m_isFinished = true;
             timer.stop();
         }

@@ -266,6 +266,11 @@ public class PropulsionSys extends SubsystemBase {
 
         SmartDashboard.putNumber("miles per hour", getMilesPerHour());
         SmartDashboard.putNumber("feet per second", getFeetPerSecond());
+
+        SmartDashboard.putNumber("leftFront", leftFrontMtr.getSelectedSensorPosition());
+        SmartDashboard.putNumber("rightFront", rightFrontMtr.getSelectedSensorPosition());
+        SmartDashboard.putNumber("leftBack", leftBackMtr.getSelectedSensorPosition());
+        SmartDashboard.putNumber("rightBack", rightBackMtr.getSelectedSensorPosition());
     }
 
     @Override
@@ -397,6 +402,18 @@ public class PropulsionSys extends SubsystemBase {
      */
     public void stop() {
         mecanumDrive.stopMotor();
+    }
+
+    /**
+     * Sets the heading and all of the encoders to zero with {@link edu.wpi.first.wpilibj.interfaces.Gyro}.reset() and
+     * {@link com.ctre.phoenix.motorcontrol.can.BaseMotorController}.setSelectedSensorPosition(0.0)
+     */
+    public void zero() {
+        gyro.reset();
+        leftFrontMtr.setSelectedSensorPosition(0.0);
+        leftBackMtr.setSelectedSensorPosition(0.0);
+        rightFrontMtr.setSelectedSensorPosition(0.0);
+        rightBackMtr.setSelectedSensorPosition(0.0);
     }
 }
 

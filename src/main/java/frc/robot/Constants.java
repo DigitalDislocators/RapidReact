@@ -49,7 +49,7 @@ public class Constants {
       /**
        * Kp for aiming.
        */
-      public static final double aim = 0.02;
+      public static final double aim = 0.03;
 
       /**
        * Kp for turning while driving.
@@ -95,7 +95,7 @@ public class Constants {
       /**
        * The power of the intake when intaking.
        */
-      public static final double intake = 1.0;
+      public static final double intake = 0.65;
 
       /**
        * The power of both indexer motors when running in reverse.
@@ -103,20 +103,25 @@ public class Constants {
       public static final double indexerReverse = -0.8;
 
       /**
-       * The power of both indexer motors when feeding the shooter.
+       * The ratio between the powers of the intake and feed motors.
        */
-      public static final double feed = 0.7;
+      public static final double intakeToFeedRatio = 0.65;
+
+      /**
+       * The power of the feed motor when feeding the shooter.
+       */
+      public static final double feedFeed = 1.0;
 
       // Shooter powers
       /**
        * The power for the shooter when dumping in the low goal.
        */
-      public static final double lowGoal = 0.28;
+      public static final double lowGoal = 0.32;
 
       /**
        * The power for the shooter when shooting from the launchpad.
        */
-      public static final double launchpad = 0.87;
+      public static final double launchpad = 0.79;
 
       /**
        * The spin-up time for the shooter in seconds.

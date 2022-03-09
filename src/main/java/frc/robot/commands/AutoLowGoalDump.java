@@ -73,7 +73,7 @@ public class AutoLowGoalDump extends CommandBase {
     @Override
     public void execute() {
         m_shooterSys.set(Constants.Power.lowGoal);
-        m_indexerSys.set(Constants.Power.feed);
+        m_indexerSys.feed();
     }
 
     
@@ -88,7 +88,7 @@ public class AutoLowGoalDump extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(m_timer.hasElapsed(3)) {
+        if(m_timer.hasElapsed(1.5)) {
             return true;
         }
         else {
