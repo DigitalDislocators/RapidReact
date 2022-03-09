@@ -132,7 +132,7 @@ public class RobotContainer {
   private void operatorBindingsBodi() {
     m_operatorAButton.whileHeld(new LowGoalShootCmd(m_shooterSys)).whenReleased(new StopShooterCmd(m_shooterSys));
     m_operatorBButton.whileHeld(new LowGoalShootCmd(m_shooterSys)).whileHeld(new FeedShooterCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
-    m_operatorXButton.whileHeld(new AutoLaunchpadShootSeq(m_indexerSys, m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys));
+    m_operatorXButton.whenPressed(new AutoLaunchpadShootSeq(m_indexerSys, m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys));
     m_operatorYButton.whileHeld(new LaunchpadShootCmd(m_shooterSys)).whenReleased(new StopShooterCmd(m_shooterSys));
     m_operatorDPadUp.whileHeld(new HookUpCmd(m_hookSys)).whenReleased(new HookStopCmd(m_hookSys));
     m_operatorDPadDown.whileHeld(new HookDownCmd(m_hookSys)).whenReleased(new HookStopCmd(m_hookSys));
