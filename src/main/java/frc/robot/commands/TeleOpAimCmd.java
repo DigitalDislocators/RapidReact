@@ -82,7 +82,7 @@ public class TeleOpAimCmd extends CommandBase {
     @Override
     public void execute() {
         // Proportional controller
-        double power = (m_limelightSys.getX() * Constants.Kp.aim);
+        double power = ((m_limelightSys.getX() + 2.5) * Constants.Kp.aim);
 
         // Factoring in power input
         if(power < -m_power) {
@@ -94,7 +94,7 @@ public class TeleOpAimCmd extends CommandBase {
         }
         
 
-        SmartDashboard.putString("Status", "AIMING: " + m_limelightSys.getX()); 
+        SmartDashboard.putString("Status", "AIMING: " + (m_limelightSys.getX() + 2.5)); 
 
         RobotContainer.setAimPower(power);
     }

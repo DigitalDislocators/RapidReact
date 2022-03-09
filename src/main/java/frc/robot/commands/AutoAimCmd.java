@@ -118,7 +118,10 @@ public class AutoAimCmd extends CommandBase {
             m_push = 0;
         }
 
-        SmartDashboard.putString("Status", "AIMING: " + m_limelightSys.getX()); 
+        SmartDashboard.putString("Status", "AIMING: " + m_limelightSys.getX());
+
+        // Setting motor powers
+        m_propulsionSys.tankDriveControl(power, -power);
     }
 
     

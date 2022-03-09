@@ -119,10 +119,6 @@ public class IndexerSys extends SubsystemBase {
      * Runs the intake unless a second ball has pushed the first one in front of the sensor.
      */
     public void intake() {
-        if(!m_lightsSys.isBlinking()) {
-            m_lightsSys.setBlink(true);
-        }
-
         SmartDashboard.putNumber("sensor prox", sensor.getProximity());
         SmartDashboard.putNumber("sensor red", sensor.getRed());
         SmartDashboard.putNumber("sensor blue", sensor.getBlue());

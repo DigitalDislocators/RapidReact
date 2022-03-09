@@ -49,7 +49,7 @@ public class Constants {
       /**
        * Kp for aiming.
        */
-      public static final double aim = 0.02;
+      public static final double aim = 0.03;
 
       /**
        * Kp for turning while driving.
@@ -105,18 +105,18 @@ public class Constants {
       /**
        * The power of both indexer motors when feeding the shooter.
        */
-      public static final double feed = 0.7;
+      public static final double feed = 0.6;
 
       // Shooter powers
       /**
        * The power for the shooter when dumping in the low goal.
        */
-      public static final double lowGoal = 0.28;
+      public static final double lowGoal = 0.32;
 
       /**
        * The power for the shooter when shooting from the launchpad.
        */
-      public static final double launchpad = 0.87;
+      public static final double launchpad = 0.79;
 
       /**
        * The spin-up time for the shooter in seconds.

@@ -85,6 +85,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         SmartDashboard.putString("Status", "INITIALIZING");
 
+        m_robotContainer.m_propulsionSys.zero();
+
         m_robotContainer.m_limelightSys.setLED(true);
 
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
