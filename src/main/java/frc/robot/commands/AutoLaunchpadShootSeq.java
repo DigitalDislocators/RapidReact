@@ -10,7 +10,7 @@ public class AutoLaunchpadShootSeq extends SequentialCommandGroup {
     public AutoLaunchpadShootSeq(IndexerSys indexerSys, ShooterSys shooterSys) {
         super(
             new LaunchpadShootCmd(shooterSys),
-            new PrepareFeedCmd(indexerSys),
+            // new PrepareFeedCmd(indexerSys),
             new WaitCmd(Constants.Power.spinUpTime),
             new FeedShooterCmd(indexerSys)
         );
