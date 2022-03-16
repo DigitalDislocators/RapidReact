@@ -35,36 +35,46 @@ public class Constants {
        * The amount of encoder counts per foot of movement of an 8-inch wheel.
        */
       public static final double countsPerFoot = 4096 / (8 * Math.PI) * 12;
+
+      /**
+       * The amount of encoder counts per meter of movement of an 8-inch wheel.
+       */
+      public static final double countsPerMeter = 4096 / (0.2032 * Math.PI);
+
+      /**
+       * The amount of encoder counts per degree of rotation of the turret.
+       */
+      public static final double countsPerDegree = 24096 / 360;
    }
 
    /**
-    * The Constants.Kp class provides Kp values for various proportional controllers.
+    * The Constants.kP class provides kP values for various proportional controllers.
     */
-   public class Kp {
+   public class KP {
       /**
-       * Kp for turning in place.
+       * kP for turning in place.
        */
       public static final double turn = 0.05;
 
       /**
-       * Kp for aiming.
+       * kP for aiming.
        */
       public static final double aim = 0.03;
 
       /**
-       * Kp for turning while driving.
+       * kP for turning while driving.
        */
       public static final double turnWhileDriving = 0.005;
 
       /**
-       * Kp for driving.
+       * kP for driving.
        */
       public static final double drive = 0.001;
 
       /**
-       * Kp for driving to a point, where distance is measured in feet.
+       * kP for aiming the turret.
        */
-      public static final double driveToPoint = 4.1;
+      public static final double turret = 0.035;
    }
 
    /**

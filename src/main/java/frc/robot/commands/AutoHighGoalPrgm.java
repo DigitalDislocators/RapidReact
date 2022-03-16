@@ -2,13 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IndexerSys;
-import frc.robot.subsystems.LimelightSys;
+import frc.robot.subsystems.TurretSys;
 import frc.robot.subsystems.PropulsionSys;
 import frc.robot.subsystems.ShooterSys;
 
 public class AutoHighGoalPrgm extends SequentialCommandGroup {
 
-    public AutoHighGoalPrgm(PropulsionSys propulsionsys, IndexerSys indexerSys, ShooterSys shooterSys, LimelightSys limelightSys) {
+    public AutoHighGoalPrgm(PropulsionSys propulsionsys, IndexerSys indexerSys, ShooterSys shooterSys, TurretSys limelightSys) {
         super(
             new StartIntakeCmd(indexerSys),
             new AutoStraightHeadingCmd(4, 0, 0.3, propulsionsys),

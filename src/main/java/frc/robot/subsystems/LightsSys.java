@@ -75,9 +75,10 @@ public class LightsSys extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putString("LED Color", color);
+
         if(partyMode) {
-            if(blinkTimer.hasElapsed(Constants.Lights.partySpeed)) {
-                blinkTimer.reset();
+            if(partyTimer.hasElapsed(Constants.Lights.partySpeed)) {
+                partyTimer.reset();
                 if(color.equals("magenta")) {
                     red();
                 }
@@ -207,12 +208,12 @@ public class LightsSys extends SubsystemBase {
     }
 
     public void setPartyMode(boolean setPartyMode) {
-        if(!setPartyMode) {
-            partyTimer.stop();
-        }
         if(setPartyMode != partyMode) {
             partyTimer.reset();
             partyTimer.start();
+        }
+        if(!setPartyMode) {
+            partyTimer.stop();
         }
         partyMode = setPartyMode;
     }
