@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         CameraServer.startAutomaticCapture(0);
-        m_robotContainer.m_limelightSys.setLED(true);
+        m_robotContainer.m_turretSys.setLED(true);
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }
 
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledPeriodic() {
-        m_robotContainer.m_limelightSys.setLED(false);
+        m_robotContainer.m_turretSys.setLED(false);
     }
 
     /**
@@ -86,8 +86,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putString("Status", "INITIALIZING");
 
         m_robotContainer.m_propulsionSys.zero();
+        m_robotContainer.m_turretSys.zero();
 
-        m_robotContainer.m_limelightSys.setLED(true);
+        m_robotContainer.m_turretSys.setLED(true);
 
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
@@ -108,7 +109,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        m_robotContainer.m_limelightSys.setLED(true);
+        m_robotContainer.m_turretSys.setLED(true);
+        m_robotContainer.m_turretSys.zero();
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
