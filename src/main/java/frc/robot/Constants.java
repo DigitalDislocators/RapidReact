@@ -136,7 +136,7 @@ public class Constants {
       /**
        * The spin-up time for the shooter in seconds.
        */
-      public static final double spinUpTime = 0.5;
+      public static final double spinUpTime = 0.75;
    }
 
    /**

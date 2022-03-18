@@ -140,7 +140,12 @@ public class IndexerSys extends SubsystemBase {
      * @param power the desired power to set the indexer to
      */
     public void set(double power) {
-        intakeMtr.set(power * Constants.Power.intake);
+        if(power > 0) {
+            intakeMtr.set(power * Constants.Power.intake);
+        }
+        else {
+            intakeMtr.set(power);
+        }
         feedMtr.set(power);
     }
 
