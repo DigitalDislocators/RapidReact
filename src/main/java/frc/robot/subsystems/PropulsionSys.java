@@ -278,12 +278,12 @@ public class PropulsionSys extends SubsystemBase {
         SmartDashboard.putNumber("miles per hour", getMilesPerHour());
         SmartDashboard.putNumber("feet per second", getFeetPerSecond());
 
-        SmartDashboard.putNumber("leftFront", leftFrontMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("rightFront", rightFrontMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("leftBack", leftBackMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("rightBack", rightBackMtr.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("leftFront", leftFrontMtr.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("rightFront", rightFrontMtr.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("leftBack", leftBackMtr.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("rightBack", rightBackMtr.getSelectedSensorPosition());
 
-        SmartDashboard.putString("pose", getPose().getX() + ", " + getPose().getY());
+        // SmartDashboard.putString("pose", getPose().getX() + ", " + getPose().getY());
     }
 
     @Override
