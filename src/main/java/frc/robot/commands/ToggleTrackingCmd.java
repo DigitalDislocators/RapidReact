@@ -61,8 +61,8 @@ public class ToggleTrackingCmd extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_turretSys.setTrackingIsEnabled(!m_turretSys.trackingIsEnabled());
-        if(m_turretSys.trackingIsEnabled()) {
+        m_turretSys.setTrackingEnabled(!m_turretSys.trackingEnabled());
+        if(m_turretSys.trackingEnabled()) {
             SmartDashboard.putString("Status", "TRACKING ENABLED");
         }
         else {

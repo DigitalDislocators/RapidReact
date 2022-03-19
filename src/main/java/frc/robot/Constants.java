@@ -44,7 +44,13 @@ public class Constants {
       /**
        * The amount of encoder counts per degree of rotation of the turret.
        */
-      public static final double countsPerDegree = 24096 / 360;
+      public static final double countsPerDegree = 23368 / 360;
+
+      /**
+       * The amount of degrees the turret can rotate in one direction.
+       */
+      public static final int turretWindow = 190;
+
    }
 
    /**
@@ -74,7 +80,8 @@ public class Constants {
       /**
        * kP for aiming the turret.
        */
-      public static final double turret = 0.035;
+      public static final double turret = 0.025;
+
    }
 
    /**
@@ -115,12 +122,12 @@ public class Constants {
       /**
        * The ratio between the powers of the intake and feed motors.
        */
-      public static final double intakeToFeedRatio = 0.65;
+      public static final double intakeToFeedRatio = 0.8;
 
       /**
        * The power of the feed motor when feeding the shooter.
        */
-      public static final double feedFeed = 1.0;
+      public static final double feedFeed = 8.0;
 
       // Shooter powers
       /**
@@ -136,7 +143,7 @@ public class Constants {
       /**
        * The spin-up time for the shooter in seconds.
        */
-      public static final double spinUpTime = 0.75;
+      public static final double spinUpTime = 1.0;
    }
 
    /**

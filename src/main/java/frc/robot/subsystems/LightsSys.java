@@ -197,7 +197,6 @@ public class LightsSys extends SubsystemBase {
 
     public void off() {
         isOff = true;
-        partyMode = false;
         r.set(false);
         g.set(false);
         b.set(false);  
@@ -222,15 +221,15 @@ public class LightsSys extends SubsystemBase {
         return blinkMode;
     }
 
-    public void setBlink(boolean blink) {
-        if(!blink) {
-            blinkTimer.stop();
-        }
-        if(blink != blinkMode) {
+    public void setBlinkMode(boolean setBlinkMode) {
+        if(setBlinkMode != blinkMode) {
             blinkTimer.reset();
             blinkTimer.start();
         }
-        blinkMode = blink;
+        if(!setBlinkMode) {
+            blinkTimer.stop();
+        }
+        blinkMode = setBlinkMode;
     }
 }
 

@@ -13,7 +13,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -119,11 +118,11 @@ public class PropulsionSys extends SubsystemBase {
         }
 
         if(isFieldOriented) {
-            mecanumDrive.driveCartesian(y, x, z + RobotContainer.getAimPower());
+            mecanumDrive.driveCartesian(y, x, z);
 
         }
         else {
-            mecanumDrive.driveCartesian(y, x, z + RobotContainer.getAimPower());
+            mecanumDrive.driveCartesian(y, x, z);
         }
     }
 
@@ -159,10 +158,10 @@ public class PropulsionSys extends SubsystemBase {
         }
 
         if(isFieldOriented) {
-            mecanumDrive.driveCartesian(y, x, z + + zFine * Constants.Joystick.fineTurnRatio + RobotContainer.getAimPower(), gyro.getAngle());
+            mecanumDrive.driveCartesian(y, x, z + + zFine * Constants.Joystick.fineTurnRatio, gyro.getAngle());
         }
         else {
-            mecanumDrive.driveCartesian(y, x, z + zFine * Constants.Joystick.fineTurnRatio + RobotContainer.getAimPower());
+            mecanumDrive.driveCartesian(y, x, z + zFine * Constants.Joystick.fineTurnRatio);
         }
     }
 
