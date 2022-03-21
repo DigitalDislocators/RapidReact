@@ -80,7 +80,7 @@ public class Constants {
       /**
        * kP for aiming the turret.
        */
-      public static final double turret = 0.025;
+      public static final double turret = 0.035;
 
    }
 
@@ -127,7 +127,7 @@ public class Constants {
       /**
        * The power of the feed motor when feeding the shooter.
        */
-      public static final double feedFeed = 8.0;
+      public static final double feedFeed = 0.65;
 
       // Shooter powers
       /**

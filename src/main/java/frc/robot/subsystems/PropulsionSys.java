@@ -15,6 +15,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -256,19 +257,19 @@ public class PropulsionSys extends SubsystemBase {
      * @param right voltage delivered to the right wheels
      */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
-        leftFrontMtr.set(leftVolts);
-        leftBackMtr.set(leftVolts);
-        rightFrontMtr.set(rightVolts);
-        rightBackMtr.set(rightVolts);
+        leftFrontMtr.setVoltage(leftVolts);
+        leftBackMtr.setVoltage(leftVolts);
+        rightFrontMtr.setVoltage(rightVolts);
+        rightBackMtr.setVoltage(rightVolts);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
 
-        m_odometry.update(gyro.getRotation2d(), 
-            (leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition()) * 0.5 / Constants.Encoder.countsPerMeter,
-            (rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * 0.5 / Constants.Encoder.countsPerMeter
+        m_odometry.update(Rotation2d.fromDegrees(-getHeading()), 
+            (leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter,
+            (rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter
         );
 
         SmartDashboard.putNumber("heading", gyro.getAngle());
@@ -276,6 +277,9 @@ public class PropulsionSys extends SubsystemBase {
 
         SmartDashboard.putNumber("miles per hour", getMilesPerHour());
         SmartDashboard.putNumber("feet per second", getFeetPerSecond());
+
+        SmartDashboard.putNumber("x", getPose().getX());
+        SmartDashboard.putNumber("y", getPose().getY());
 
         // SmartDashboard.putNumber("leftFront", leftFrontMtr.getSelectedSensorPosition());
         // SmartDashboard.putNumber("rightFront", rightFrontMtr.getSelectedSensorPosition());
@@ -320,8 +324,8 @@ public class PropulsionSys extends SubsystemBase {
      */
     public DifferentialDriveWheelSpeeds getDifferentialWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-            (leftFrontMtr.getSelectedSensorVelocity() / Constants.Encoder.countsPerMeter + rightFrontMtr.getSelectedSensorVelocity() / Constants.Encoder.countsPerMeter) * 0.5,
-            (leftBackMtr.getSelectedSensorVelocity() / Constants.Encoder.countsPerMeter + rightBackMtr.getSelectedSensorVelocity() / Constants.Encoder.countsPerMeter) * 0.5
+            (leftFrontMtr.getSelectedSensorVelocity() + rightFrontMtr.getSelectedSensorVelocity()) * 0.005,
+            (leftBackMtr.getSelectedSensorVelocity() + rightBackMtr.getSelectedSensorVelocity()) * 0.005
         );
     }
 
@@ -334,7 +338,7 @@ public class PropulsionSys extends SubsystemBase {
      * @return the average encoder counts from {@link com.ctre.phoenix.motorcontrol.can.BaseMotorController}.getSelectedSensorPosition()
      */
     public double getAverageEncoderCounts() {
-        return -(leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition() + 
+        return (leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition() + 
         rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * 0.25;
     }
 
@@ -350,8 +354,8 @@ public class PropulsionSys extends SubsystemBase {
      * {@link com.ctre.phoenix.motorcontrol.can.BaseMotorController}.getSelectedSensorPosition()
      */
     public double getDistance() {
-        return -(leftFrontMtr.getSelectedSensorVelocity() + leftBackMtr.getSelectedSensorVelocity() + 
-        rightFrontMtr.getSelectedSensorVelocity() + rightBackMtr.getSelectedSensorVelocity()) * 0.0208333 / Constants.Encoder.countsPerInch;
+        return (leftFrontMtr.getSelectedSensorVelocity() + leftBackMtr.getSelectedSensorVelocity() + 
+        rightFrontMtr.getSelectedSensorVelocity() + rightBackMtr.getSelectedSensorVelocity()) * 0.25 / Constants.Encoder.countsPerFoot;
     }
 
     /**
@@ -363,7 +367,7 @@ public class PropulsionSys extends SubsystemBase {
      * @return the average encoder velocity from {@link com.ctre.phoenix.motorcontrol.can.BaseMotorController}.getSelectedSensorVelocity()
      */
     public double getAverageEncoderRate() {
-        return -(leftFrontMtr.getSelectedSensorVelocity() + leftBackMtr.getSelectedSensorVelocity() + 
+        return (leftFrontMtr.getSelectedSensorVelocity() + leftBackMtr.getSelectedSensorVelocity() + 
         rightFrontMtr.getSelectedSensorVelocity() + rightBackMtr.getSelectedSensorVelocity()) * 0.25;
     }
 
@@ -416,7 +420,7 @@ public class PropulsionSys extends SubsystemBase {
      * @return the angle of the gyro in degrees from {@link edu.wpi.first.wpilibj.interfaces.Gyro}.getAngle()
      */
     public double getHeading() {
-        return gyro.getAngle();
+        return Math.IEEEremainder(gyro.getAngle(), 360);
     }
 
     

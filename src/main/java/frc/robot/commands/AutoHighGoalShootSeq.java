@@ -4,12 +4,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSys;
 import frc.robot.subsystems.ShooterSys;
+import frc.robot.subsystems.TurretSys;
 
-public class AutoLaunchpadShootSeq extends SequentialCommandGroup {
+public class AutoHighGoalShootSeq extends SequentialCommandGroup {
 
-    public AutoLaunchpadShootSeq(IndexerSys indexerSys, ShooterSys shooterSys) {
+    public AutoHighGoalShootSeq(IndexerSys indexerSys, ShooterSys shooterSys, TurretSys turretSys) {
         super(
-            new LaunchpadShootCmd(shooterSys),
+            new HighGoalShootCmd(shooterSys, turretSys),
             // new PrepareFeedCmd(indexerSys),
             new WaitCmd(Constants.Power.spinUpTime),
             new FeedShooterCmd(indexerSys)
