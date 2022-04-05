@@ -13,7 +13,10 @@ public class AutoHighGoalShootSeq extends SequentialCommandGroup {
             new HighGoalShootCmd(shooterSys, turretSys),
             // new PrepareFeedCmd(indexerSys),
             new WaitCmd(Constants.Power.spinUpTime),
-            new FeedShooterCmd(indexerSys)
+            new FeedShooterCmd(indexerSys),
+            new WaitCmd(2),
+            new StopIndexerCmd(indexerSys),
+            new StopShooterCmd(shooterSys)
         );
     }
 }

@@ -87,6 +87,7 @@ public class Robot extends TimedRobot {
 
         m_robotContainer.m_propulsionSys.zero();
         m_robotContainer.m_turretSys.zero();
+        m_robotContainer.m_climberSys.zero();
 
         m_robotContainer.m_turretSys.setLED(true);
 
@@ -111,6 +112,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         m_robotContainer.m_turretSys.setLED(true);
         m_robotContainer.m_turretSys.zero();
+        m_robotContainer.m_climberSys.zero();
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to

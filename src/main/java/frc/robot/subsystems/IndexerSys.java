@@ -72,7 +72,7 @@ public class IndexerSys extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
-            if(sensor.getRed() > 255) {
+            if(sensor.getRed() > 290) {
                 if(DriverStation.getAlliance() == Alliance.Blue) {
                     m_cargoIsGood = false;
                 }

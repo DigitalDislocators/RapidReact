@@ -44,6 +44,7 @@ public class TurretSys extends SubsystemBase {
     private boolean m_isInverting;
     private boolean m_trackingEnabled;
     private boolean m_isTracking;
+    private boolean m_isManualControl;
     private double m_angle;
     private double m_targetAngle;
 
@@ -75,6 +76,7 @@ public class TurretSys extends SubsystemBase {
         m_isTracking = true;
         m_trackingEnabled = true;
         m_isInverting = false;
+        m_isManualControl = false;
         m_angle = 0;
         m_targetAngle = 0;
 
@@ -115,17 +117,18 @@ public class TurretSys extends SubsystemBase {
             track();
         }
 
-        if(m_shooterSys.get() != 0 && m_trackingEnabled) {
+        if(m_shooterSys.get() > Constants.Power.lowGoal && m_trackingEnabled) {
             setLED(true);
             m_isTracking = true;
         }
-        else if(!m_isTracking || !m_indexerSys.cargoIsIn() || DriverStation.isDisabled()) {
+        else if(!m_isTracking || !m_indexerSys.cargoIsIn() || DriverStation.isDisabled() && !m_isManualControl && m_trackingEnabled) {
             setLED(false);
             m_isTracking = false;
             setAngle(0, false);
         }
         else {
-            setLED(true);
+            setLED(false);
+            m_trackingEnabled = false;
         }
 
         if(m_isTracking && !limelight.getIsTargetFound() && m_indexerSys.cargoIsIn()) {
@@ -166,18 +169,17 @@ public class TurretSys extends SubsystemBase {
     }
 
     public void track() {
-        if(m_trackingEnabled && m_isTracking && (m_indexerSys.cargoIsIn() || m_shooterSys.get() != 0) && !m_isInverting) {
+        if(m_trackingEnabled && m_isTracking && (m_indexerSys.cargoIsIn() || m_shooterSys.get() > Constants.Power.lowGoal) && !m_isInverting && !m_isManualControl) {
             turretMtr.set(limelight.getdegRotationToTarget() * Constants.KP.turret);
         }
     }
 
     public void setAngle(double target, boolean isTracking) {
         m_targetAngle = target;
-        m_isTracking = isTracking;
         if(isTracking && limelight.getIsTargetFound()) {
             m_isTracking = true;
         }
-        if(!m_isTracking) {
+        if(!m_isTracking && !m_isManualControl && m_trackingEnabled) {
             if(limelight.getIsTargetFound()) {
                 m_isTracking = true;
             }
@@ -188,7 +190,7 @@ public class TurretSys extends SubsystemBase {
             // else if(power < -0.75) {
             //     power = -0.75;
             // }
-            if(m_angle < target + 180 && m_angle > target - 180) {
+            if(m_angle < target + 90 && m_angle > target - 90) {
                 power *= 0.5;
             }
 
@@ -216,6 +218,7 @@ public class TurretSys extends SubsystemBase {
     public void joystickControl(double x, double y) {
         double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         if(distance < 0.25) {
+            m_isManualControl = false;
             if(!m_trackingEnabled) {
                 turretMtr.stopMotor();
             }
@@ -224,6 +227,7 @@ public class TurretSys extends SubsystemBase {
             }
         }
         else {
+            m_isManualControl = true;
             double angle = Math.toDegrees(Math.atan2(x, y));
             if(angle > Constants.Encoder.turretWindow) {
                 angle -= 360;
@@ -234,6 +238,7 @@ public class TurretSys extends SubsystemBase {
 
     public void dPadControl(double pov) {
         if(pov == -1) {
+            m_isManualControl = false;
             if(!m_isTracking) {
                 if(!m_trackingEnabled) {
                     turretMtr.stopMotor();
@@ -244,6 +249,7 @@ public class TurretSys extends SubsystemBase {
             }
         }
         else {
+            m_isManualControl = true;
             if(pov > Constants.Encoder.turretWindow) {
                 pov -= 360;
             }
@@ -258,7 +264,14 @@ public class TurretSys extends SubsystemBase {
 
     public void highGoalPower() {
         double x = limelight.getdegVerticalToTarget();
-        m_shooterSys.set(((-1.3 * Math.pow(x, 4) + 26.8 * Math.pow(x, 3) - 9.6 + Math.pow(x, 2) - 2607.1 * x + 91348) * 0.00001));
+        if(x < -5) {
+            m_shooterSys.set(1.0);
+        }
+        else {
+            // m_shooterSys.set(((-1.3 * Math.pow(x, 4) + 26.8 * Math.pow(x, 3) - 9.6 + Math.pow(x, 2) - 2607.1 * x + 91348) * 0.00001));
+            m_shooterSys.set(((9.2 * Math.pow(x, 3) - 51.2 * Math.pow(x, 2) - 2243.5 * x + 91298) * 0.00001));
+            // m_shooterSys.set(Constants.Power.launchpad);
+        }
         SmartDashboard.putString("Status", "HIGH GOAL SHOOT: " + m_shooterSys.get());
     }
 
@@ -278,6 +291,10 @@ public class TurretSys extends SubsystemBase {
         }
     }
 
+    public double getTurnSpeed() {
+        return turretMtr.getSelectedSensorPosition();
+    }
+
     public void zero() {
         turretMtr.setSelectedSensorPosition(0);
     }
@@ -292,6 +309,10 @@ public class TurretSys extends SubsystemBase {
 
     public double getY() {
         return limelight.getdegVerticalToTarget();
+    }
+
+    public double getAngle() {
+        return m_angle;
     }
 
     // Put methods for controlling this subsystem

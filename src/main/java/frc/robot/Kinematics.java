@@ -23,7 +23,7 @@ public class Kinematics {
     public static final double kMaxSpeedMetersPerSecond = 1;
     public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
-    public static final double maxVolts = 8.0;
+    public static final double maxVolts = 4.0;
 
     // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
     public static final double kRamseteB = 2;

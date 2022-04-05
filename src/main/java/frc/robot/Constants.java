@@ -29,7 +29,7 @@ public class Constants {
       /**
        * The amount of encoder counts per inch of movement of an 8-inch wheel.
        */
-      public static final double countsPerInch = 4096 / (8 * Math.PI);
+      public static final double countsPerInch = 163; //4096 / (8 * Math.PI);
 
       /**
        * The amount of encoder counts per foot of movement of an 8-inch wheel.
@@ -47,9 +47,19 @@ public class Constants {
       public static final double countsPerDegree = 23368 / 360;
 
       /**
-       * The amount of degrees the turret can rotate in one direction.
+       * The amount of degrees the turret can rotate in one direction before inverting.
        */
       public static final int turretWindow = 190;
+
+      /**
+       * The number of encoder counts when the climber is all the way up.
+       */
+      public static final int climberUp = 31500;
+
+      /**
+       * The number of encoder counts when the climber is down.
+       */
+      public static final int climberDown = 50000;
 
    }
 
@@ -101,7 +111,7 @@ public class Constants {
       /**
        * The threshhold of the indexer sensor for stopping the intake.
        */
-      public static final double indexerProxThresh = 90;
+      public static final double indexerProxThresh = 100;
    }
 
    /**
@@ -127,7 +137,7 @@ public class Constants {
       /**
        * The power of the feed motor when feeding the shooter.
        */
-      public static final double feedFeed = 0.65;
+      public static final double feedFeed = 0.50;
 
       // Shooter powers
       /**
@@ -138,7 +148,7 @@ public class Constants {
       /**
        * The power for the shooter when shooting from the launchpad.
        */
-      public static final double launchpad = 0.79;
+      public static final double launchpad = 0.73;//0.79
 
       /**
        * The spin-up time for the shooter in seconds.
