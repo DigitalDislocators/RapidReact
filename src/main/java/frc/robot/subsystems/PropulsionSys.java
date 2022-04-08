@@ -274,19 +274,16 @@ public class PropulsionSys extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        m_odometry.update(Rotation2d.fromDegrees(getHeading()), 
-            (leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter,
-            (rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter
-        );
+        // m_odometry.update(Rotation2d.fromDegrees(getHeading()), 
+        //     (leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter,
+        //     (rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter
+        // );
 
         SmartDashboard.putNumber("heading", gyro.getAngle());
         SmartDashboard.putNumber("degrees per second", gyro.getRate());
 
         SmartDashboard.putNumber("miles per hour", getMilesPerHour());
         SmartDashboard.putNumber("feet per second", getFeetPerSecond());
-
-        SmartDashboard.putNumber("x", getPose().getX());
-        SmartDashboard.putNumber("y", getPose().getY());
 
         // SmartDashboard.putNumber("leftFront", leftFrontMtr.getSelectedSensorPosition());
         // SmartDashboard.putNumber("rightFront", rightFrontMtr.getSelectedSensorPosition());
@@ -455,6 +452,14 @@ public class PropulsionSys extends SubsystemBase {
      */
     public void zero() {
         gyro.reset();
+        leftFrontMtr.setSelectedSensorPosition(0);
+        leftBackMtr.setSelectedSensorPosition(0);
+        rightFrontMtr.setSelectedSensorPosition(0);
+        rightBackMtr.setSelectedSensorPosition(0);
+
+    }
+
+    public void zeroEncoders() {
         leftFrontMtr.setSelectedSensorPosition(0);
         leftBackMtr.setSelectedSensorPosition(0);
         rightFrontMtr.setSelectedSensorPosition(0);

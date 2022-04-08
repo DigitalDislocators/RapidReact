@@ -99,35 +99,6 @@ public class LightsSys extends SubsystemBase {
                 }
             }
         }
-        
-        if(blinkMode) {
-            if(blinkTimer.hasElapsed(Constants.Lights.blinkSpeed)) {
-                blinkTimer.reset();
-                if(!isOff) {
-                    off();
-                }
-                else {
-                    if(color.equals("magenta")) {
-                        magenta();
-                    }
-                    else if(color.equals("red")) {
-                        red();
-                    }
-                    else if(color.equals("yellow")) {
-                        yellow();
-                    }
-                    else if(color.equals("green")) {
-                        green();
-                    }
-                    else if(color.equals("cyan")) {
-                        cyan();
-                    }
-                    else if(color.equals("blue")) {
-                        blue();
-                    }
-                }
-            }
-        }
     }
 
     @Override
@@ -215,21 +186,6 @@ public class LightsSys extends SubsystemBase {
             partyTimer.stop();
         }
         partyMode = setPartyMode;
-    }
-
-    public boolean isBlinking() {
-        return blinkMode;
-    }
-
-    public void setBlinkMode(boolean setBlinkMode) {
-        if(setBlinkMode != blinkMode) {
-            blinkTimer.reset();
-            blinkTimer.start();
-        }
-        if(!setBlinkMode) {
-            blinkTimer.stop();
-        }
-        blinkMode = setBlinkMode;
     }
 }
 

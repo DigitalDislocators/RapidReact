@@ -102,8 +102,8 @@ public class AutoTurnToHeadingCmd extends CommandBase {
         }
 
         // Using rotation rate for m_push and m_isFinished
-        if(Math.abs(m_propulsionSys.getAngleRate()) < 10) {
-            if(m_propulsionSys.getHeading() > m_heading - 0.5 && m_propulsionSys.getHeading() < m_heading + 0.5) {
+        if(Math.abs(m_propulsionSys.getAngleRate()) < 7) {
+            if(m_propulsionSys.getHeading() > m_heading - 0.25 && m_propulsionSys.getHeading() < m_heading + 0.25) {
                 m_push = 0;
                 m_isFinished = true;
             }

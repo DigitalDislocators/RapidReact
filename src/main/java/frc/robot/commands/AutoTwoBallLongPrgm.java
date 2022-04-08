@@ -6,15 +6,19 @@ import frc.robot.subsystems.TurretSys;
 import frc.robot.subsystems.PropulsionSys;
 import frc.robot.subsystems.ShooterSys;
 
-public class AutoTwoBallHighGoalPrgm extends SequentialCommandGroup {
+public class AutoTwoBallLongPrgm extends SequentialCommandGroup {
 
-    public AutoTwoBallHighGoalPrgm(PropulsionSys propulsionsys, IndexerSys indexerSys, ShooterSys shooterSys, TurretSys turretSys) {
+    public AutoTwoBallLongPrgm(PropulsionSys propulsionsys, IndexerSys indexerSys, ShooterSys shooterSys, TurretSys turretSys) {
         super(
             new TrackingOffCmd(turretSys),
+            new LaunchpadShootCmd(shooterSys),
+            new AutoTurnToHeadingCmd(5, 0.5, propulsionsys),
             new StartIntakeCmd(indexerSys),
-            new AutoStraightHeadingCmd(4, 0, 0.3, propulsionsys),
+            new AutoStraightCmd(6, 6, 0.3, propulsionsys),
             new StopIndexerCmd(indexerSys),
-            new AutoTurnCmd(-90, 0.5, propulsionsys).alongWith(new AutoSetTurretAngleCmd(-90, turretSys)),
+            new TrackingOnCmd(turretSys),
+            new AutoSetTurretAngleCmd(180, turretSys),
+            new WaitCmd(1.0),
             new AutoHighGoalShootSeq(indexerSys, shooterSys, turretSys),
             new StopIndexerCmd(indexerSys),
             new StopShooterCmd(shooterSys)

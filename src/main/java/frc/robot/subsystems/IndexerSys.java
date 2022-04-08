@@ -119,8 +119,6 @@ public class IndexerSys extends SubsystemBase {
      * Runs the intake unless a second cargo has pushed the first one in front of the sensor.
      */
     public void intake() {
-        m_lightsSys.setBlinkMode(true);
-
         if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
             intakeMtr.stopMotor();
         }
@@ -153,8 +151,6 @@ public class IndexerSys extends SubsystemBase {
      * Stops both motors of the indexer.
      */
     public void stop() {
-        m_lightsSys.setBlinkMode(false);
-
         intakeMtr.stopMotor();
         feedMtr.stopMotor();
     }

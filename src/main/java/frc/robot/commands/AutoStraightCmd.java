@@ -70,7 +70,7 @@ public class AutoStraightCmd extends CommandBase {
 
         // Adding feet and inches together and multiplying by the number of encoder counts in one inch of wheel rotation
         // plus the current encoder counts of the drivebase to obtain the target encoder counts of the drivebase motors
-        m_counts = ((feet * 12) + inches) * Constants.Encoder.countsPerInch + m_propulsionSys.getAverageEncoderCounts();
+        m_counts = ((feet * 12) + inches) * Constants.Encoder.countsPerInch;
 
         // Making sure power is positive for continuity
         m_power = Math.abs(power);
@@ -126,6 +126,7 @@ public class AutoStraightCmd extends CommandBase {
     public void end(boolean interrupted) {
         // Sets motor powers to zero when command is finished.
         m_propulsionSys.stop();
+        m_propulsionSys.zeroEncoders();
         SmartDashboard.putString("Status", "DRIVE FINISHED");
     }
 

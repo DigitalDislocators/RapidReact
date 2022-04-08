@@ -56,13 +56,14 @@ public class ClimberUpCmd extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        SmartDashboard.putString("Status", "CLIMBER RUNNING");
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         m_climberSys.set(1.0);
+        SmartDashboard.putString("Status", "CLIMBER RAISING: " + (Constants.Encoder.climberDown - m_climberSys.getClimberCounts()));
     }
 
     
@@ -70,6 +71,7 @@ public class ClimberUpCmd extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_climberSys.set(0.0);
+        SmartDashboard.putString("Status", "CLIMBER RAISED");
     }
 
     

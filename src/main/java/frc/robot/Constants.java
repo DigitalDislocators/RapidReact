@@ -80,7 +80,7 @@ public class Constants {
       /**
        * kP for turning while driving.
        */
-      public static final double turnWhileDriving = 0.005;
+      public static final double turnWhileDriving = 0.01;
 
       /**
        * kP for driving.
@@ -148,7 +148,7 @@ public class Constants {
       /**
        * The power for the shooter when shooting from the launchpad.
        */
-      public static final double launchpad = 0.73;//0.79
+      public static final double launchpad = 0.90;
 
       /**
        * The spin-up time for the shooter in seconds.
