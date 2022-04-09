@@ -128,7 +128,9 @@ public class TurretSys extends SubsystemBase {
         else if(!m_isTracking || !m_trackingEnabled || !m_indexerSys.cargoIsIn() || DriverStation.isDisabled() || m_shooterSys.get() == Constants.Power.lowGoal) {
             setLED(false);
             m_isTracking = false;
-            setAngle(0, false);
+            if(!DriverStation.isAutonomous()) {
+                setAngle(0, false);
+            }
         }
         else {
             setLED(true);
