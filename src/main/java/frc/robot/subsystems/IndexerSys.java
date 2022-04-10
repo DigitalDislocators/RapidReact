@@ -17,7 +17,7 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
@@ -82,7 +82,7 @@ public class IndexerSys extends SubsystemBase {
                 if(!m_lightsSys.getPartyMode()) {
                     m_lightsSys.red();
                 }
-                SmartDashboard.putString("cargo color", "red");
+                // SmartDashboard.putString("cargo color", "red");
             }
             else if(sensor.getBlue() > 225) {
                 if(DriverStation.getAlliance() == Alliance.Red) {
@@ -94,14 +94,14 @@ public class IndexerSys extends SubsystemBase {
                 if(!m_lightsSys.getPartyMode()) {
                     m_lightsSys.blue();
                 }
-                SmartDashboard.putString("cargo color", "blue");
+                // SmartDashboard.putString("cargo color", "blue");
             }
         }
         else {
             if(!m_lightsSys.getPartyMode()) {
                 m_lightsSys.green();
             }
-            SmartDashboard.putString("cargo color", "N/A");
+            // SmartDashboard.putString("cargo color", "N/A");
             m_cargoIsGood = true;
         }
     }

@@ -174,10 +174,10 @@ public class TurretSys extends SubsystemBase {
             }
         }
 
-        SmartDashboard.putNumber("turret angle", m_angle);
-        SmartDashboard.putNumber("turret counts", turretMtr.getSelectedSensorPosition());
-        SmartDashboard.putNumber("limelight x", limelight.getdegRotationToTarget());
-        SmartDashboard.putNumber("limelight y", limelight.getdegVerticalToTarget());
+        // SmartDashboard.putNumber("turret angle", m_angle);
+        // SmartDashboard.putNumber("turret counts", turretMtr.getSelectedSensorPosition());
+        // SmartDashboard.putNumber("limelight x", limelight.getdegRotationToTarget());
+        // SmartDashboard.putNumber("limelight y", limelight.getdegVerticalToTarget());
     }
 
     @Override
@@ -286,7 +286,7 @@ public class TurretSys extends SubsystemBase {
             m_shooterSys.set(1.0);
         }
         else {
-            m_shooterSys.set((9.2 * Math.pow(x, 3) - 51.2 * Math.pow(x, 2) - 2243.5 * x + 91298) * 0.00001);
+            m_shooterSys.set(((9.2 * Math.pow(x, 3) - 51.2 * Math.pow(x, 2) - 2243.5 * x + 91298) * 0.00001) - 0.08);
         }
         SmartDashboard.putString("Status", "HIGH GOAL SHOOT: " + m_shooterSys.get());
     }
