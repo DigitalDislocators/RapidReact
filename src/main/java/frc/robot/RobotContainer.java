@@ -65,6 +65,8 @@ public class RobotContainer {
     private final JoystickButton m_operatorWindowButton = new JoystickButton(m_operatorController, 7);
     private final JoystickButton m_operatorMenuButton = new JoystickButton(m_operatorController, 8);
 
+    private final JoystickButton m_operatorLeftBumper = new JoystickButton(m_operatorController, 5);
+
     private final POVButton m_operatorDPadUp = new POVButton(m_operatorController, 0);
     private final POVButton m_operatorDPadRight = new POVButton(m_operatorController, 90);
     private final POVButton m_operatorDPadDown = new POVButton(m_operatorController, 180);
@@ -134,7 +136,7 @@ public class RobotContainer {
     );
 
     m_lightsSys.setDefaultCommand(new RunCommand(
-      () -> m_lightsSys.setPartyMode(m_driverRightJoystick.isConnected() && m_driverRightJoystick.getRawAxis(3) < 0.25),
+      () -> m_lightsSys.setModes(m_driverRightJoystick.isConnected() && m_driverRightJoystick.getRawAxis(3) < 0.25, m_driverLeftJoystick.isConnected() && m_driverLeftJoystick.getRawAxis(3) < 0.25),
       m_lightsSys)
     );
   }
@@ -144,7 +146,6 @@ public class RobotContainer {
     m_operatorBButton.whileHeld(new LowGoalShootCmd(m_shooterSys, m_turretSys)).whileHeld(new FeedShooterCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
     m_operatorXButton.whileHeld(new HighGoalShootRoutineCmd(m_shooterSys, m_indexerSys, m_turretSys)).whenReleased(new StopIndexerCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys));
     m_operatorYButton.whileHeld(new LaunchpadShootRoutineCmd(m_shooterSys, m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
-
     m_operatorMenuButton.whenPressed(new ToggleTrackingCmd(m_turretSys));
     m_operatorWindowButton.whenPressed(new ZeroTurretCmd(m_turretSys));
     
@@ -171,6 +172,10 @@ public class RobotContainer {
     m_indexerSys.setDefaultCommand(new RunCommand(
       () -> m_indexerSys.operatorControl(m_operatorController.getRawAxis(1), m_operatorController.getRawAxis(3) > 0.25),
       m_indexerSys)
+    );
+
+    m_shooterSys.setDefaultCommand(new RunCommand(
+      () -> m_shooterSys.errorControl(m_operatorLeftBumper.get(), m_operatorController.getRawAxis(2) > 0.25), m_shooterSys)
     );
   }
 
@@ -206,6 +211,10 @@ public class RobotContainer {
     m_indexerSys.setDefaultCommand(new RunCommand(
       () -> m_indexerSys.operatorControl(-m_operatorController.getRawAxis(1), m_operatorController.getRawAxis(3) > 0.25),
       m_indexerSys)
+    );
+
+    m_shooterSys.setDefaultCommand(new RunCommand(
+      () -> m_shooterSys.errorControl(m_operatorLeftBumper.get(), m_operatorController.getRawAxis(2) > 0.25), m_shooterSys)
     );
   }
 

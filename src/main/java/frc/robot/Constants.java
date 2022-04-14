@@ -64,33 +64,55 @@ public class Constants {
    }
 
    /**
-    * The Constants.kP class provides kP values for various proportional controllers.
+    * The Constants.PID class provides PID values for various PID controllers.
     */
-   public class KP {
+   public class PID {
       /**
        * kP for turning in place.
        */
-      public static final double turn = 0.05;
+      public static final double turnP = 0.05;
 
       /**
-       * kP for aiming.
+       * kP for aiming with the drivebase.
        */
-      public static final double aim = 0.03;
+      public static final double aimP = 0.015;
 
       /**
        * kP for turning while driving.
        */
-      public static final double turnWhileDriving = 0.01;
+      public static final double turnWhileDrivingP = 0.01;
 
       /**
        * kP for driving.
        */
-      public static final double drive = 0.001;
+      public static final double driveP = 0.001;
 
       /**
        * kP for aiming the turret.
        */
-      public static final double turret = 0.035;
+      public static final double turretP = 0.03;
+
+      /**
+       * kI for aiming the turret.
+       */
+      public static final double turretI = 0.008; //0.004
+
+      /**
+       * kD for aiming the turret.
+       */
+      public static final double turretD = 0.0012;
+
+      /**
+       * kP for setting shooter velocity.
+       */
+      public static final double shooterP = 0.4;
+
+      /**
+       * kD for setting shooter velocity.
+       */
+      public static final double shooterD = 0.0025;
+
+      public static final double shooterFF = 0.00125;
 
    }
 
@@ -148,12 +170,17 @@ public class Constants {
       /**
        * The power for the shooter when shooting from the launchpad.
        */
-      public static final double launchpad = 0.90;
+      public static final double launchpad = 0.7;
 
       /**
        * The spin-up time for the shooter in seconds.
        */
       public static final double spinUpTime = 1.0;
+
+      /**
+       * The maximum RPM of the shooter motor.
+       */
+      public static final double shooterMaxRPM = 5800;
    }
 
    /**
@@ -166,9 +193,9 @@ public class Constants {
       public static final double partySpeed = 0.2;
 
       /**
-       * The time in seconds between each color flash in blink mode.
+       * The time in seconds between each color change in police mode.
        */
-      public static final double blinkSpeed = 0.2;
+      public static final double policeSpeed = 0.2;
    }
 }
 

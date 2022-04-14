@@ -91,7 +91,7 @@ public class AutoTurnToHeadingCmd extends CommandBase {
     @Override
     public void execute() {
         // Proportional controller
-        double power = ((m_heading - m_propulsionSys.getHeading()) * Constants.KP.turn) + m_push;
+        double power = ((m_heading - m_propulsionSys.getHeading()) * Constants.PID.turnP) + m_push;
 
         // Factoring in power input
         if(power < -m_power) {
@@ -109,10 +109,10 @@ public class AutoTurnToHeadingCmd extends CommandBase {
             }
             else {
                 if(power < 0) {
-                    m_push -= Constants.KP.turn * 0.5;
+                    m_push -= Constants.PID.turnP * 0.5;
                 }
                 else {
-                    m_push += Constants.KP.turn * 0.5;
+                    m_push += Constants.PID.turnP * 0.5;
                 }
             }
         }

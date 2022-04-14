@@ -15,7 +15,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -41,10 +40,10 @@ public class LightsSys extends SubsystemBase {
     boolean isOff;
 
     boolean partyMode;
-    boolean blinkMode;
+    boolean policeMode;
 
     Timer partyTimer;
-    Timer blinkTimer;
+    Timer policeTimer;
     
     /**
      * Constructs a new HookSys.
@@ -63,10 +62,10 @@ public class LightsSys extends SubsystemBase {
         b = new Solenoid(PneumaticsModuleType.CTREPCM, 7);
 
         partyMode = false;
-        blinkMode = false;
+        policeMode = false;
 
         partyTimer = new Timer();
-        blinkTimer = new Timer();
+        policeTimer = new Timer();
 
         green();
     }
@@ -74,31 +73,37 @@ public class LightsSys extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putString("LED Color", color);
 
-        if(partyMode) {
-            if(partyTimer.hasElapsed(Constants.Lights.partySpeed)) {
-                partyTimer.reset();
-                if(color.equals("magenta")) {
-                    red();
-                }
-                else if(color.equals("red")) {
-                    yellow();
-                }
-                else if(color.equals("yellow")) {
-                    green();
-                }
-                else if(color.equals("green")) {
-                    cyan();
-                }
-                else if(color.equals("cyan")) {
-                    blue();
-                }
-                else if(color.equals("blue")) {
-                    magenta();
-                }
+        if(partyMode && partyTimer.hasElapsed(Constants.Lights.partySpeed)) {
+            partyTimer.reset();
+            if(color.equals("magenta")) {
+                red();
+            }
+            else if(color.equals("red")) {
+                yellow();
+            }
+            else if(color.equals("yellow")) {
+                green();
+            }
+            else if(color.equals("green")) {
+                cyan();
+            }
+            else if(color.equals("cyan")) {
+                blue();
+            }
+            else if(color.equals("blue")) {
+                magenta();
             }
         }
+        else if(policeMode && policeTimer.hasElapsed(Constants.Lights.policeSpeed)) {
+            if(color.equals("blue")) {
+                red();
+            }
+            else {
+                blue();
+            }
+        }
+
     }
 
     @Override
@@ -173,11 +178,11 @@ public class LightsSys extends SubsystemBase {
         b.set(false);  
     }
 
-    public boolean getPartyMode() {
-        return partyMode;
+    public boolean isMode() {
+        return partyMode && policeMode;
     }
 
-    public void setPartyMode(boolean setPartyMode) {
+    public void setModes(boolean setPartyMode, boolean setPoliceMode) {
         if(setPartyMode != partyMode) {
             partyTimer.reset();
             partyTimer.start();
@@ -186,6 +191,15 @@ public class LightsSys extends SubsystemBase {
             partyTimer.stop();
         }
         partyMode = setPartyMode;
+
+        if(setPoliceMode != policeMode) {
+            policeTimer.reset();
+            policeTimer.start();
+        }
+        if(!setPoliceMode) {
+            policeTimer.stop();
+        }
+        policeMode = setPoliceMode;
     }
 }
 

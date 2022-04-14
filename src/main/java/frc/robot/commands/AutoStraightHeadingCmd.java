@@ -150,7 +150,7 @@ public class AutoStraightHeadingCmd extends CommandBase {
     @Override
     public void execute() {
         // Proportional controller for turning
-        double turnPower = ((m_heading - m_propulsionSys.getHeading()) * Constants.KP.turnWhileDriving) + m_turnPush;
+        double turnPower = ((m_heading - m_propulsionSys.getHeading()) * Constants.PID.turnWhileDrivingP) + m_turnPush;
 
         // Using rotation rate for m_turnPush
         if(Math.abs(m_propulsionSys.getAngleRate()) < 20) {
@@ -162,10 +162,10 @@ public class AutoStraightHeadingCmd extends CommandBase {
             }
             else {
                 if(turnPower < 0) {
-                    m_turnPush -= Constants.KP.turnWhileDriving * 0.5;
+                    m_turnPush -= Constants.PID.turnWhileDrivingP * 0.5;
                 }
                 else {
-                    m_turnPush += Constants.KP.turnWhileDriving * 0.5;
+                    m_turnPush += Constants.PID.turnWhileDrivingP * 0.5;
                 }
             }
         }
@@ -174,7 +174,7 @@ public class AutoStraightHeadingCmd extends CommandBase {
         }
 
         // Proportional controller for driving
-        double drivePower = ((m_counts - m_propulsionSys.getAverageEncoderCounts()) * Constants.KP.drive) + m_drivePush;
+        double drivePower = ((m_counts - m_propulsionSys.getAverageEncoderCounts()) * Constants.PID.driveP) + m_drivePush;
 
         // Factoring in power input
         if(drivePower < -m_power) {
@@ -193,10 +193,10 @@ public class AutoStraightHeadingCmd extends CommandBase {
             else {
                 m_driveIsFinished = false;
                 if(drivePower < 0) {
-                    m_drivePush -= Constants.KP.drive * 0.5;
+                    m_drivePush -= Constants.PID.driveP * 0.5;
                 }
                 else {
-                    m_drivePush += Constants.KP.drive * 0.5;
+                    m_drivePush += Constants.PID.driveP * 0.5;
                 }
             }
         }
