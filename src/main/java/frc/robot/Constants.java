@@ -49,7 +49,7 @@ public class Constants {
       /**
        * The amount of degrees the turret can rotate in one direction before inverting.
        */
-      public static final int turretWindow = 190;
+      public static final int turretWindow = 135;
 
       /**
        * The number of encoder counts when the climber is all the way up.
@@ -181,6 +181,8 @@ public class Constants {
        * The maximum RPM of the shooter motor.
        */
       public static final double shooterMaxRPM = 5800;
+
+      public static final double maxTurretPower = 1.0;
    }
 
    /**

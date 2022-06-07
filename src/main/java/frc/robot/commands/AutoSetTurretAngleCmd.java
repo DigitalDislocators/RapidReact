@@ -64,7 +64,7 @@ public class AutoSetTurretAngleCmd extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_turretSys.control(m_angle, 1.0);
+        m_turretSys.setAngle(m_angle, 1.0);
         SmartDashboard.putString("Status", "TURNING TURRET: " + (m_turretSys.getAngle() - m_angle));
     }
 
