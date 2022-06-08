@@ -145,7 +145,7 @@ public class RobotContainer {
     m_operatorAButton.whileHeld(new PrepareFeedCmd(m_indexerSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
     m_operatorBButton.whileHeld(new LowGoalShootCmd(m_shooterSys, m_turretSys)).whileHeld(new FeedShooterCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
     m_operatorXButton.whileHeld(new HighGoalShootRoutineCmd(m_shooterSys, m_indexerSys, m_turretSys)).whenReleased(new StopIndexerCmd(m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys));
-    m_operatorYButton.whileHeld(new LaunchpadShootRoutineCmd(m_shooterSys, m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
+    m_operatorYButton.whileHeld(new YEETShootRoutineCmd(m_shooterSys, m_indexerSys)).whenReleased(new StopShooterCmd(m_shooterSys)).whenReleased(new StopIndexerCmd(m_indexerSys));
     m_operatorMenuButton.whenPressed(new ToggleTrackingCmd(m_turretSys));
     m_operatorWindowButton.whenPressed(new ZeroTurretCmd(m_turretSys));
     

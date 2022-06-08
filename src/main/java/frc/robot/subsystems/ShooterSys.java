@@ -63,8 +63,8 @@ public class ShooterSys extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        // SmartDashboard.putNumber("shooter percent", shooterMtr.getEncoder().getVelocity() / Constants.Power.shooterMaxRPM);
-        // SmartDashboard.putNumber("shooter target", shooterMtr.get());
+        SmartDashboard.putNumber("shooter percent", shooterMtr.getEncoder().getVelocity() / Constants.Power.shooterMaxRPM);
+        SmartDashboard.putNumber("shooter target", shooterMtr.get());
         // SmartDashboard.putNumber("target velocity", targetVelocity);
         SmartDashboard.putNumber("shooter error", error);
     }
@@ -80,7 +80,12 @@ public class ShooterSys extends SubsystemBase {
     public void set(double power) {
         targetVelocity = (power + error) * Constants.Power.shooterMaxRPM;
 
-        shooterMtr.set(power + error);
+        // if(shooterMtr.getEncoder().getVelocity() < targetVelocity - 2800) {
+        //     shooterMtr.set(1.0);
+        // }
+        // else {
+            shooterMtr.set(power + error);
+        // }
     }
 
     public double get() {

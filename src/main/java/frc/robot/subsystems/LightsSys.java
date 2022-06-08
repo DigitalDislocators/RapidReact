@@ -95,7 +95,8 @@ public class LightsSys extends SubsystemBase {
                 magenta();
             }
         }
-        else if(policeMode && policeTimer.hasElapsed(Constants.Lights.policeSpeed)) {
+        else if(policeMode && policeTimer.hasElapsed(Constants.Lights.policeSpeed) && !partyMode) {
+            policeTimer.reset();
             if(color.equals("blue")) {
                 red();
             }
@@ -179,7 +180,7 @@ public class LightsSys extends SubsystemBase {
     }
 
     public boolean isMode() {
-        return partyMode && policeMode;
+        return partyMode || policeMode;
     }
 
     public void setModes(boolean setPartyMode, boolean setPoliceMode) {

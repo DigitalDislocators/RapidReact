@@ -49,8 +49,8 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
         camera = CameraServer.startAutomaticCapture("intake camera", 0);
         camera.setPixelFormat(PixelFormat.kYUYV);
-        camera.setResolution(320, 240);
-        camera.setFPS(22);
+        // camera.setResolution(320, 240);
+        // camera.setFPS(22);
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }
 

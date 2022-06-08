@@ -17,11 +17,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import oi.limelightvision.limelight.frc.Limelight;
 import oi.limelightvision.limelight.frc.ControlMode.LedMode;
 
@@ -44,10 +42,8 @@ public class TurretSys extends SubsystemBase {
     private Limelight limelight;
     private WPI_TalonSRX turretMtr;
 
-    private boolean m_isInverting;
     private boolean m_trackingEnabled;
     private double m_angle;
-    private double m_targetAngle;
     private double m_controlAngle;
     private boolean m_isManualControl;
 
@@ -81,9 +77,7 @@ public class TurretSys extends SubsystemBase {
         m_pidController = new PIDController(Constants.PID.turretP, Constants.PID.turretI, Constants.PID.turretD);
 
         m_trackingEnabled = true;
-        m_isInverting = false;
         m_angle = 0;
-        m_targetAngle = 0;
 
         rumbleTimer = new Timer();
     }
@@ -92,22 +86,26 @@ public class TurretSys extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         
-        //Getting current turret angle from encoder counts
+        // Getting current turret angle from encoder counts
         m_angle = turretMtr.getSelectedSensorPosition() / Constants.Encoder.countsPerDegree;
 
+        // The turret is controlled in autonomous by AutoSetTurretAngleCmd, which runs setAngle(target, maxPower)
         if(!DriverStation.isAutonomous()) {
+            // Manual control overrides all other forms of control
             if(m_isManualControl) {
                 setLED(true);
                 setAngle(m_controlAngle, Constants.Power.maxTurretPower);
             }
             else {
+                // Turret can only track if tracking is enabled
                 if(!m_trackingEnabled) {
                     setLED(false);
                     turretMtr.stopMotor();
                 }
                 else {
+                    // If turret is out of range, it can only track if a target will bring it back into range
                     if(m_angle < -Constants.Encoder.turretWindow && isTargetFound()) {
-                        if(limelight.getdegRotationToTarget() > 0) {
+                        if(getX() > 0) {
                             track();
                         }
                         else {
@@ -115,7 +113,7 @@ public class TurretSys extends SubsystemBase {
                         }
                     }
                     else if(m_angle > Constants.Encoder.turretWindow && isTargetFound()) {
-                        if(limelight.getdegRotationToTarget() < 0) {
+                        if(getX() < 0) {
                             track();
                         }
                         else {
@@ -123,7 +121,9 @@ public class TurretSys extends SubsystemBase {
                         }
                     }
                     else {
-                        if(m_indexerSys.cargoIsIn()) {
+                        // Tracking only starts if cargo is in front of the sensor
+                        // If no target is found or no cargo is in front of the sensor, set the turret angle to zero
+                        if(m_indexerSys.cargoIsIn() || m_shooterSys.get() > Constants.Power.lowGoal) {
                             setLED(true);
                             if(isTargetFound()) {
                                 track();
@@ -144,8 +144,7 @@ public class TurretSys extends SubsystemBase {
         SmartDashboard.putNumber("turret angle", m_angle);
         // SmartDashboard.putNumber("turret counts", turretMtr.getSelectedSensorPosition());
         // SmartDashboard.putNumber("limelight x", limelight.getdegRotationToTarget());
-        SmartDashboard.putNumber("limelight y", limelight.getdegVerticalToTarget());
-        // SmartDashboard.putNumber("target angle", m_targetAngle);
+        // SmartDashboard.putNumber("limelight y", limelight.getdegVerticalToTarget());
     }
 
     @Override
@@ -154,12 +153,10 @@ public class TurretSys extends SubsystemBase {
     }
 
     public void track() {
-        // turretMtr.set(limelight.getdegRotationToTarget() * Constants.PID.turretP);
         turretMtr.set(m_pidController.calculate(limelight.getdegRotationToTarget(), 0.0));
     }
 
     public void setAngle(double target, double maxPower) {
-        m_targetAngle = target;
         maxPower = Math.abs(maxPower);
         // double power = ((m_angle - target) * Constants.PID.turretP);
         double power = -m_pidController.calculate(m_angle, target);
@@ -207,20 +204,13 @@ public class TurretSys extends SubsystemBase {
     }
 
     public void highGoalPower() {
-        double x = limelight.getdegVerticalToTarget();
-        // m_shooterSys.set(((-1.3 * Math.pow(x, 4) + 26.8 * Math.pow(x, 3) - 9.6 + Math.pow(x, 2) - 2607.1 * x + 91348) * 0.00001));
-        // if(x < -4.919) {
-        //     m_shooterSys.set(1.0);
-        // }
-        // else if(x > 11.06) {
-        //     m_shooterSys.set(0.72669);
-        // }
-        // else {
-        //     m_shooterSys.set(((9.2 * Math.pow(x, 3) - 51.2 * Math.pow(x, 2) - 2243.5 * x + 91298) * 0.00001) /*- 0.03*/);
-        // }
-
-        m_shooterSys.set((58 * Math.pow(x, 2) - 2133.9 * x + 8732.1) * 0.0001);
-        SmartDashboard.putString("Status", "HIGH GOAL SHOOT: " + m_shooterSys.get());
+        if(isTargetFound()) {
+            m_shooterSys.set(Math.max(Math.min((58 * Math.pow(getY(), 2) - 2133.9 * getY() + 8732.1) * 0.0001, 1.0), 0.72));
+            SmartDashboard.putString("Status", "HIGH GOAL SHOOT: " + m_shooterSys.get());
+        }
+        else {
+            m_shooterSys.set(Constants.Power.launchpad);
+        }
     }
 
     public boolean trackingEnabled() {

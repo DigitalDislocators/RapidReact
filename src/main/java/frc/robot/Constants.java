@@ -159,7 +159,7 @@ public class Constants {
       /**
        * The power of the feed motor when feeding the shooter.
        */
-      public static final double feedFeed = 0.50;
+      public static final double feedFeed = 0.65;
 
       // Shooter powers
       /**
@@ -182,7 +182,10 @@ public class Constants {
        */
       public static final double shooterMaxRPM = 5800;
 
-      public static final double maxTurretPower = 1.0;
+      /**
+       * The maximum power of the turret.
+       */
+      public static final double maxTurretPower = 0.75;
    }
 
    /**
@@ -197,7 +200,7 @@ public class Constants {
       /**
        * The time in seconds between each color change in police mode.
        */
-      public static final double policeSpeed = 0.2;
+      public static final double policeSpeed = 0.15;
    }
 }
 
