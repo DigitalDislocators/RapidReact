@@ -49,7 +49,7 @@ public class Constants {
       /**
        * The amount of degrees the turret can rotate in one direction before inverting.
        */
-      public static final int turretWindow = 135;
+      public static final int turretWindow = 180;
 
       /**
        * The number of encoder counts when the climber is all the way up.
@@ -90,7 +90,7 @@ public class Constants {
       /**
        * kP for aiming the turret.
        */
-      public static final double turretP = 0.03;
+      public static final double turretP = 0.035; //0.03
 
       /**
        * kI for aiming the turret.
@@ -186,6 +186,11 @@ public class Constants {
        * The maximum power of the turret.
        */
       public static final double maxTurretPower = 0.75;
+
+      /**
+       * The speed of the turret manual speed control.
+       */
+      public static final double turretSpeedControl = 1.5;
    }
 
    /**
@@ -201,6 +206,21 @@ public class Constants {
        * The time in seconds between each color change in police mode.
        */
       public static final double policeSpeed = 0.15;
+   }
+
+   /**
+    * The Constants.Rumble class provides constants for controller rumble
+    */
+   public class Rumble {
+      /**
+       * Enables or disables controller rumble
+       */
+      public static final boolean isEnabled = false;
+
+      /**
+       * The amount of time the controller will buzz
+       */
+      public static final double buzzTime = 0.25;
    }
 }
 

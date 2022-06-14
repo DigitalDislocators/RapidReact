@@ -11,7 +11,6 @@
 // ROBOTBUILDER TYPE: Command.
 
 package frc.robot.commands;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSys;
@@ -63,7 +62,6 @@ public class ClimberUpCmd extends CommandBase {
     @Override
     public void execute() {
         m_climberSys.set(1.0);
-        SmartDashboard.putString("Status", "CLIMBER RAISING: " + (Constants.Encoder.climberDown - m_climberSys.getClimberCounts()));
     }
 
     
@@ -71,7 +69,6 @@ public class ClimberUpCmd extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_climberSys.set(0.0);
-        SmartDashboard.putString("Status", "CLIMBER RAISED");
     }
 
     

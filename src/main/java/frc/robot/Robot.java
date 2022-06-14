@@ -14,12 +14,12 @@ package frc.robot;
 
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -88,8 +88,6 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousInit() {
-        SmartDashboard.putString("Status", "INITIALIZING");
-
         m_robotContainer.m_propulsionSys.zero();
         m_robotContainer.m_turretSys.zero();
         m_robotContainer.m_climberSys.zero();
@@ -102,8 +100,6 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
-
-        SmartDashboard.putString("Status", "INITIALIZED");
     }
 
     /**

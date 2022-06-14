@@ -14,9 +14,13 @@ package frc.robot.subsystems;
 
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -46,6 +50,8 @@ public class IndexerSys extends SubsystemBase {
 
     private boolean m_cargoIsGood;
 
+    private NetworkTableEntry sb_cargoIsGood;
+
     /**
      * Constructs a new IndexerSys.
      * 
@@ -67,6 +73,8 @@ public class IndexerSys extends SubsystemBase {
         sensor = new ColorSensorV3(Port.kOnboard);
 
         m_lightsSys = lightsSys;
+
+        sb_cargoIsGood = Shuffleboard.getTab("DOOFENSHMIRTZ").add("Cargo Color", false).getEntry();
     }
 
     @Override
@@ -84,7 +92,6 @@ public class IndexerSys extends SubsystemBase {
                 if(!m_lightsSys.isMode()) {
                     m_lightsSys.red();
                 }
-                // SmartDashboard.putString("cargo color", "red");
             }
             else  {
                 // Cargo is blue
@@ -97,15 +104,22 @@ public class IndexerSys extends SubsystemBase {
                 if(!m_lightsSys.isMode()) {
                     m_lightsSys.blue();
                 }
-                // SmartDashboard.putString("cargo color", "blue");
             }
         }
         else {
             if(!m_lightsSys.isMode()) {
                 m_lightsSys.green();
             }
-            // SmartDashboard.putString("cargo color", "N/A");
             m_cargoIsGood = true;
+        }
+
+        sb_cargoIsGood.setBoolean(m_cargoIsGood);
+
+        if(!m_cargoIsGood) {
+            RobotContainer.getInstance().setRumble(RumbleType.kLeftRumble, 1.0);
+        }
+        else {
+            RobotContainer.getInstance().setRumble(RumbleType.kLeftRumble, 0.0);
         }
     }
 
@@ -133,6 +147,17 @@ public class IndexerSys extends SubsystemBase {
     public void feed() {
         intakeMtr.set(Constants.Power.intakeToFeedRatio);
         feedMtr.set(Constants.Power.feedFeed);
+    }
+
+    public void triggerControl(boolean run) {
+        if(run) {
+            intakeMtr.set(Constants.Power.intakeToFeedRatio);
+            feedMtr.set(Constants.Power.feedFeed);
+        }
+        else {
+            intakeMtr.set(0);
+            feedMtr.set(0);
+        }
     }
 
     /**

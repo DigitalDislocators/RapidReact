@@ -279,16 +279,16 @@ public class PropulsionSys extends SubsystemBase {
         //     (rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter
         // );
 
-        // SmartDashboard.putNumber("heading", gyro.getAngle());
-        // SmartDashboard.putNumber("degrees per second", gyro.getRate());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("heading", gyro.getAngle());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("degrees per second", gyro.getRate());
 
-        // SmartDashboard.putNumber("miles per hour", getMilesPerHour());
-        // SmartDashboard.putNumber("feet per second", getFeetPerSecond());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("miles per hour", getMilesPerHour());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("feet per second", getFeetPerSecond());
 
-        // SmartDashboard.putNumber("leftFront", leftFrontMtr.getSelectedSensorPosition());
-        // SmartDashboard.putNumber("rightFront", rightFrontMtr.getSelectedSensorPosition());
-        // SmartDashboard.putNumber("leftBack", leftBackMtr.getSelectedSensorPosition());
-        // SmartDashboard.putNumber("rightBack", rightBackMtr.getSelectedSensorPosition());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("leftFront", leftFrontMtr.getSelectedSensorPosition());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("rightFront", rightFrontMtr.getSelectedSensorPosition());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("leftBack", leftBackMtr.getSelectedSensorPosition());
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("rightBack", rightBackMtr.getSelectedSensorPosition());
 
         // SmartDashboard.putString("pose", getPose().getX() + ", " + getPose().getY());
     }
