@@ -61,12 +61,7 @@ public class PrepareFeedCmd extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(m_indexerSys.cargoIsIn()) {
-            m_indexerSys.stop();
-        }
-        else {
-            m_indexerSys.feed();
-        }
+        m_indexerSys.prepareFeed();
     }
 
     

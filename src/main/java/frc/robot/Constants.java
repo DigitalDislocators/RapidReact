@@ -154,12 +154,12 @@ public class Constants {
       /**
        * The ratio between the powers of the intake and feed motors.
        */
-      public static final double intakeToFeedRatio = 0.8;
+      public static final double intakeToFeedRatio = 0.35;
 
       /**
        * The power of the feed motor when feeding the shooter.
        */
-      public static final double feedFeed = 0.65;
+      public static final double feedFeed = 0.8;
 
       // Shooter powers
       /**
@@ -173,14 +173,14 @@ public class Constants {
       public static final double launchpad = 0.7;
 
       /**
-       * The spin-up time for the shooter in seconds.
+       * The maximum spin-up time for the shooter in seconds.
        */
-      public static final double spinUpTime = 1.0;
+      public static final double maxSpinUpTime = 1.0;
 
       /**
        * The maximum RPM of the shooter motor.
        */
-      public static final double shooterMaxRPM = 5800;
+      public static final double shooterMaxRPM = 5800; //5800
 
       /**
        * The maximum power of the turret.
@@ -190,7 +190,7 @@ public class Constants {
       /**
        * The speed of the turret manual speed control.
        */
-      public static final double turretSpeedControl = 1.5;
+      public static final double turretRotControl = 2.5;
    }
 
    /**
@@ -215,7 +215,7 @@ public class Constants {
       /**
        * Enables or disables controller rumble
        */
-      public static final boolean isEnabled = false;
+      public static final boolean isEnabled = true;
 
       /**
        * The amount of time the controller will buzz

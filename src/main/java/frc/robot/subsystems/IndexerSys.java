@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -51,6 +52,7 @@ public class IndexerSys extends SubsystemBase {
     private boolean m_cargoIsGood;
 
     private NetworkTableEntry sb_cargoIsGood;
+    private NetworkTableEntry sb_isFeeding;
 
     /**
      * Constructs a new IndexerSys.
@@ -74,7 +76,16 @@ public class IndexerSys extends SubsystemBase {
 
         m_lightsSys = lightsSys;
 
-        sb_cargoIsGood = Shuffleboard.getTab("DOOFENSHMIRTZ").add("Cargo Color", false).getEntry();
+        sb_cargoIsGood = Shuffleboard.getTab("DOOFENSHMIRTZ").add("Cargo Color", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withSize(4, 2)
+            .withPosition(3, 5)
+            .getEntry();
+        sb_isFeeding = Shuffleboard.getTab("DOOFENSHMIRTZ").add("Feeding", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withSize(2, 2)
+            .withPosition(14, 5)
+            .getEntry();
     }
 
     @Override
@@ -114,6 +125,7 @@ public class IndexerSys extends SubsystemBase {
         }
 
         sb_cargoIsGood.setBoolean(m_cargoIsGood);
+        sb_isFeeding.setBoolean(feedMtr.get() > 0.25 && cargoIsIn());
 
         if(!m_cargoIsGood) {
             RobotContainer.getInstance().setRumble(RumbleType.kLeftRumble, 1.0);
@@ -137,7 +149,8 @@ public class IndexerSys extends SubsystemBase {
      */
     public void intake() {
         if(sensor.getProximity() > Constants.Sensor.indexerProxThresh) {
-            intakeMtr.stopMotor();
+            intakeMtr.set(0.0);
+            feedMtr.set(0.0);
         }
         else {
             intakeMtr.set(Constants.Power.intake);
@@ -145,8 +158,27 @@ public class IndexerSys extends SubsystemBase {
     }
 
     public void feed() {
-        intakeMtr.set(Constants.Power.intakeToFeedRatio);
         feedMtr.set(Constants.Power.feedFeed);
+        if(cargoIsIn()) {
+            intakeMtr.set(0.0);
+        }
+        else {
+            intakeMtr.set(Constants.Power.intakeToFeedRatio);
+        }
+    }
+
+    public void lowGoalDump() {
+        feedMtr.set(Constants.Power.feedFeed);
+        intakeMtr.set(Constants.Power.intakeToFeedRatio);
+    }
+
+    public void prepareFeed() {
+        if(!cargoIsIn()) {
+            lowGoalDump();
+        }
+        else {
+            stop();
+        }
     }
 
     public void triggerControl(boolean run) {
@@ -166,21 +198,31 @@ public class IndexerSys extends SubsystemBase {
      * @param power the desired power to set the indexer to
      */
     public void set(double power) {
-        if(cargoIsIn() || power > 0) {
-            intakeMtr.set(power * Constants.Power.intake);
+        if(Math.abs(power) > 0.25) {
+            if(power < 0) {
+                if(cargoIsIn()) {
+                    intakeMtr.set(power * Constants.Power.intakeToFeedRatio);
+                }
+                else {
+                    intakeMtr.set(power);
+                }
+            }
+            else {
+                intakeMtr.set(power);
+            }
+            feedMtr.set(power);
         }
         else {
-            intakeMtr.set(power);
+            stop();
         }
-        feedMtr.set(power);
     }
 
     /**
      * Stops both motors of the indexer.
      */
     public void stop() {
-        intakeMtr.stopMotor();
-        feedMtr.stopMotor();
+        intakeMtr.set(0.0);
+        feedMtr.set(0.0);
     }
 
     /**
@@ -209,5 +251,4 @@ public class IndexerSys extends SubsystemBase {
             set(set);
         }
     }
-
 }

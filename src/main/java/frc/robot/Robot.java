@@ -20,6 +20,8 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -48,10 +50,20 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
         camera = CameraServer.startAutomaticCapture("intake camera", 0);
-        camera.setPixelFormat(PixelFormat.kYUYV);
-        // camera.setResolution(320, 240);
-        // camera.setFPS(22);
+        camera.setPixelFormat(PixelFormat.kMJPEG);
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
+
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("Intake", "intake camera")
+        //     .withWidget(BuiltInWidgets.kCameraStream)
+        //     .withSize(7, 5)
+        //     .withPosition(0, 0);
+
+        
+        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("Auto Chooser", m_robotContainer.m_chooser)
+        //     .withSize(3, 2)
+        //     .withPosition(0, 5);
+
+        Shuffleboard.selectTab("DOOFENSHMIRTZ");
     }
 
     /**

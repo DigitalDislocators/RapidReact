@@ -278,19 +278,6 @@ public class PropulsionSys extends SubsystemBase {
         //     (leftFrontMtr.getSelectedSensorPosition() + leftBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter,
         //     (rightFrontMtr.getSelectedSensorPosition() + rightBackMtr.getSelectedSensorPosition()) * -0.5 / Constants.Encoder.countsPerMeter
         // );
-
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("heading", gyro.getAngle());
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("degrees per second", gyro.getRate());
-
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("miles per hour", getMilesPerHour());
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("feet per second", getFeetPerSecond());
-
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("leftFront", leftFrontMtr.getSelectedSensorPosition());
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("rightFront", rightFrontMtr.getSelectedSensorPosition());
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("leftBack", leftBackMtr.getSelectedSensorPosition());
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("rightBack", rightBackMtr.getSelectedSensorPosition());
-
-        // SmartDashboard.putString("pose", getPose().getX() + ", " + getPose().getY());
     }
 
     @Override
