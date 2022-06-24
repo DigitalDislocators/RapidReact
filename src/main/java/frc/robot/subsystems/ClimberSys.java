@@ -66,7 +66,6 @@ public class ClimberSys extends SubsystemBase {
     // - Versh (coding mentor)
 
     public void rotate(double power, TurretSys turretSys) {
-        turretSys.climb(power > 0);
         if(turretSys.getAngle() < -45) {
             setMtr.set(power);
         }
@@ -75,6 +74,13 @@ public class ClimberSys extends SubsystemBase {
         }
         else {
             setMtr.set(0.0);
+        }
+
+        if(power > 0) {
+            turretSys.climb(true);
+        }
+        else if(power < 0) {
+            turretSys.climb(false);
         }
 
     }

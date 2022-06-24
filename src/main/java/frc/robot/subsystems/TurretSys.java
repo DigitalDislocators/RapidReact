@@ -126,6 +126,7 @@ public class TurretSys extends SubsystemBase {
         
         // Getting current turret angle from encoder counts
         m_angle = turretMtr.getSelectedSensorPosition() / Constants.Encoder.countsPerDegree;
+        
         sb_turretAngle.setDouble(m_angle);
         sb_isTracking.setBoolean(isTargetFound() && m_trackingEnabled  && !m_isManualControl);
         sb_trackingEnabled.setBoolean(m_trackingEnabled);
@@ -135,6 +136,7 @@ public class TurretSys extends SubsystemBase {
         // Angle is set in auto with AutoSetTurretAngleCmd, which runs the setAngle methods
         if(DriverStation.isAutonomous()) {
             // Turret will only track if allowed
+            // Otherwise it will run the turret to the desired angle
             setLED(true);
             if(m_trackingEnabled && isTargetFound()) {
                 track();
@@ -146,7 +148,7 @@ public class TurretSys extends SubsystemBase {
         else {
             // Manual control overrides all other forms of control
             if(m_isManualControl) {
-                setLED(!m_isClimbing);
+                setLED(true);
                 // Makes sure manual control does not exceed bounds
                 if(m_controlAngle > Constants.Encoder.turretWindow) {
                     m_controlAngle = Constants.Encoder.turretWindow;
@@ -156,11 +158,13 @@ public class TurretSys extends SubsystemBase {
                 }
                 setAngle(m_controlAngle, Constants.Power.maxTurretPower);
             }
-            else if(m_isHolding) {
+            // Turret will hold position when joystick is released
+            else if(m_isHolding || m_isClimbing) {
+                setLED(!m_isClimbing);
                 // Turret holds control angle
                 setAngle(m_controlAngle, Constants.Power.maxTurretPower);
                 // Disables holding if target is found
-                if(isTargetFound()) {
+                if(isTargetFound() && !m_isClimbing) {
                     m_isHolding = false;
                 }
             }
@@ -314,13 +318,12 @@ public class TurretSys extends SubsystemBase {
     public void climb(boolean climb) {
         if(climb) {
             m_isClimbing = true;
+            m_isHolding = true;
             m_trackingEnabled = false;
             m_controlAngle = -90;
-            m_isManualControl = true;
         }
         else {
             m_isClimbing = false;
-            m_isManualControl = false;
         }
     }
 

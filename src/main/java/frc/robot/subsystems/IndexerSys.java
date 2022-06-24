@@ -210,16 +210,11 @@ public class IndexerSys extends SubsystemBase {
         if(Math.abs(power) > 0.25) {
             if(power < 0) {
                 shooterSys.set(power * 0.25);
-                // if(cargoIsIn()) {
-                intakeMtr.set(power * Constants.Power.intakeToFeedRatio);
-                // }
-                // else {
-                //     intakeMtr.set(power);
-                // }
             }
             else {
-                intakeMtr.set(power);
+                shooterSys.set(0.0);
             }
+            intakeMtr.set(power * Constants.Power.intakeToFeedRatio);
             feedMtr.set(power);
         }
         else {

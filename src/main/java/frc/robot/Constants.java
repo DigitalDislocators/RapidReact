@@ -153,6 +153,7 @@ public class Constants {
 
       /**
        * The ratio between the powers of the intake and feed motors.
+       * If feed motor is 1.0 in manual control, intake motor will be this value.
        */
       public static final double intakeToFeedRatio = 0.45; // 0.35 is same speed
 
