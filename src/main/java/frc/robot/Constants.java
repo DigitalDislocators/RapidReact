@@ -90,12 +90,12 @@ public class Constants {
       /**
        * kP for aiming the turret.
        */
-      public static final double turretP = 0.035; //0.03
+      public static final double turretP = 0.037;
 
       /**
        * kI for aiming the turret.
        */
-      public static final double turretI = 0.008; //0.004
+      public static final double turretI = 0.008;
 
       /**
        * kD for aiming the turret.
@@ -144,7 +144,7 @@ public class Constants {
       /**
        * The power of the intake when intaking.
        */
-      public static final double intake = 0.65;
+      public static final double intake = 0.55;
 
       /**
        * The power of both indexer motors when running in reverse.
@@ -154,7 +154,7 @@ public class Constants {
       /**
        * The ratio between the powers of the intake and feed motors.
        */
-      public static final double intakeToFeedRatio = 0.35;
+      public static final double intakeToFeedRatio = 0.45; // 0.35 is same speed
 
       /**
        * The power of the feed motor when feeding the shooter.
@@ -185,12 +185,17 @@ public class Constants {
       /**
        * The maximum power of the turret.
        */
-      public static final double maxTurretPower = 0.75;
+      public static final double maxTurretPower = 0.65;
 
       /**
        * The speed of the turret manual speed control.
        */
       public static final double turretRotControl = 2.5;
+
+      /**
+       * The increment or decrement of shooter error control buttons
+       */
+      public static final double shooterErrorControlInterval = 0.75;
    }
 
    /**

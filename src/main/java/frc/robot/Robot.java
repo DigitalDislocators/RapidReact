@@ -20,6 +20,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -57,10 +58,10 @@ public class Robot extends TimedRobot {
         //     .withSize(7, 5)
         //     .withPosition(0, 0);
 
-        
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("Auto Chooser", m_robotContainer.m_chooser)
-        //     .withSize(3, 2)
-        //     .withPosition(0, 5);
+        Shuffleboard.getTab("DOOFENSHMIRTZ").add("Intake", camera)
+            .withWidget(BuiltInWidgets.kCameraStream)
+            .withSize(7, 5)
+            .withPosition(0, 0);
 
         Shuffleboard.selectTab("DOOFENSHMIRTZ");
     }
@@ -118,6 +119,7 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void autonomousPeriodic() {
+
     }
 
     @Override

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -133,6 +134,8 @@ public class IndexerSys extends SubsystemBase {
         else {
             RobotContainer.getInstance().setRumble(RumbleType.kLeftRumble, 0.0);
         }
+
+        SmartDashboard.putString("Sensor RGB", sensor.getRed() + ", " + sensor.getGreen() + ", " + sensor.getBlue());
     }
 
     @Override
@@ -167,6 +170,11 @@ public class IndexerSys extends SubsystemBase {
         }
     }
 
+    public void autoFeed() {
+        feedMtr.set(Constants.Power.feedFeed);
+        intakeMtr.set(Constants.Power.intakeToFeedRatio);
+    }
+
     public void lowGoalDump() {
         feedMtr.set(Constants.Power.feedFeed);
         intakeMtr.set(Constants.Power.intakeToFeedRatio);
@@ -189,6 +197,34 @@ public class IndexerSys extends SubsystemBase {
         else {
             intakeMtr.set(0);
             feedMtr.set(0);
+        }
+    }
+
+    /**
+     * Sets the power of both motors of the indexer and the shooter.
+     * 
+     * @param power the desired power to set the indexer to
+     * @param shooterSys ShooterSys to set the shooter power to run backwards
+     */
+    public void set(double power, ShooterSys shooterSys) {
+        if(Math.abs(power) > 0.25) {
+            if(power < 0) {
+                shooterSys.set(power * 0.25);
+                // if(cargoIsIn()) {
+                intakeMtr.set(power * Constants.Power.intakeToFeedRatio);
+                // }
+                // else {
+                //     intakeMtr.set(power);
+                // }
+            }
+            else {
+                intakeMtr.set(power);
+            }
+            feedMtr.set(power);
+        }
+        else {
+            shooterSys.set(0.0);
+            stop();
         }
     }
 
@@ -243,12 +279,12 @@ public class IndexerSys extends SubsystemBase {
         }
     }
 
-    public void operatorControl(double set, boolean runIntake) {
+    public void operatorControl(double set, boolean runIntake, ShooterSys shooterSys) {
         if(runIntake) {
             intake();
         }
         else {
-            set(set);
+            set(set, shooterSys);
         }
     }
 }

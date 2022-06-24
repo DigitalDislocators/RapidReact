@@ -15,7 +15,6 @@ public class AutoFourBallPrgm extends SequentialCommandGroup {
             new TrackingOnCmd(turretSys),
             new AutoStraightHeadingCmd(6, 6, 0, 0.45, propulsionsys).alongWith(new AutoSetTurretAngleCmd(165, turretSys)),
             new StopIndexerCmd(indexerSys),
-            new StopIndexerCmd(indexerSys),
             new AutoHighGoalShootSeq(indexerSys, shooterSys, turretSys),
             new TrackingOffCmd(turretSys),
             new StartIntakeCmd(indexerSys),

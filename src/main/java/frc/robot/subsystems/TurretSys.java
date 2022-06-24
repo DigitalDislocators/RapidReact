@@ -53,6 +53,7 @@ public class TurretSys extends SubsystemBase {
     private double m_controlAngle;
     private boolean m_isManualControl;
     private boolean m_isHolding;
+    private boolean m_isClimbing;
 
     private Timer rumbleTimer;
     private boolean prevIsTargetFound;
@@ -91,6 +92,7 @@ public class TurretSys extends SubsystemBase {
 
         m_trackingEnabled = true;
         m_angle = 0;
+        m_controlAngle = 0;
 
         rumbleTimer = new Timer();
         prevIsTargetFound = false;
@@ -116,11 +118,6 @@ public class TurretSys extends SubsystemBase {
             .withSize(2, 2)
             .withPosition(7, 5)
             .getEntry();
-
-        // Shuffleboard.getTab("DOOFENSHMIRTZ").add("Limelight", "limelight")
-        //     .withWidget(BuiltInWidgets.kCameraStream)
-        //     .withSize(7, 5)
-        //     .withPosition(7, 0);
     }
 
     @Override
@@ -138,14 +135,18 @@ public class TurretSys extends SubsystemBase {
         // Angle is set in auto with AutoSetTurretAngleCmd, which runs the setAngle methods
         if(DriverStation.isAutonomous()) {
             // Turret will only track if allowed
+            setLED(true);
             if(m_trackingEnabled && isTargetFound()) {
                 track();
+            }
+            else {
+                setAngle(m_controlAngle, Constants.Power.maxTurretPower);
             }
         }
         else {
             // Manual control overrides all other forms of control
             if(m_isManualControl) {
-                setLED(true);
+                setLED(!m_isClimbing);
                 // Makes sure manual control does not exceed bounds
                 if(m_controlAngle > Constants.Encoder.turretWindow) {
                     m_controlAngle = Constants.Encoder.turretWindow;
@@ -243,6 +244,10 @@ public class TurretSys extends SubsystemBase {
         turretMtr.set(m_pidController.calculate(limelight.getdegRotationToTarget(), 0.0));
     }
 
+    public void autoSetAngle(double angle) {
+        m_controlAngle = angle;
+    }
+
     public void setAngle(double target, double maxPower) {
         maxPower = Math.abs(maxPower);
         // double power = ((m_angle - target) * Constants.PID.turretP);
@@ -259,7 +264,7 @@ public class TurretSys extends SubsystemBase {
 
     public void joystickPOVControl(double x, double y) {
         double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        if(distance < 0.25) {
+        if(distance < 0.25 && !m_isClimbing) {
             m_isManualControl = false;
         }
         else {
@@ -282,12 +287,14 @@ public class TurretSys extends SubsystemBase {
             if(m_isManualControl) {
                 m_isHolding = true;
             }
-            m_isManualControl = false;
+            if(!m_isClimbing) {
+                m_isManualControl = false;
+            }
         }
     }
 
     public void dPadPOVControl(double pov) {
-        if(pov == -1) {
+        if(pov == -1 && !m_isClimbing) {
             m_isManualControl = false;
         }
         else {
@@ -304,6 +311,19 @@ public class TurretSys extends SubsystemBase {
         }
     }
 
+    public void climb(boolean climb) {
+        if(climb) {
+            m_isClimbing = true;
+            m_trackingEnabled = false;
+            m_controlAngle = -90;
+            m_isManualControl = true;
+        }
+        else {
+            m_isClimbing = false;
+            m_isManualControl = false;
+        }
+    }
+
     public void highGoalPower() {
         if(isTargetFound()) {
             m_shooterSys.set(Math.max(Math.min((58 * Math.pow(getY(), 2) - 2133.9 * getY() + 8732.1) * 0.0001, 1.0), 0.72));
@@ -311,6 +331,10 @@ public class TurretSys extends SubsystemBase {
         else {
             m_shooterSys.set(Constants.Power.launchpad);
         }
+    }
+
+    public boolean isClimbing() {
+        return m_isClimbing;
     }
 
     public boolean trackingEnabled() {
